@@ -38,8 +38,6 @@
   .btn{width:100%;height:48px;border:0;border-radius:8px;background:#0052ff;color:#fff;font-weight:600;font-size:15px;cursor:pointer}
   .btn[disabled]{opacity:.6;cursor:not-allowed}
   .warn{font-size:12px;color:#444;line-height:1.7;margin-top:12px;text-align:center}
-  .fine{font-size:12px;color:var(--muted);line-height:1.6;margin-top:14px;text-align:center}
-  .fine a{color:#0052ff;text-decoration:none}
 </style>
 </head>
 <body>
@@ -100,26 +98,26 @@
     go.disabled=!(okP && okI);
   }
 
-  platform.addEventListener('change',()=>{
-    if(platform.value==="Stake" || platform.value==="MyStake"){
-      idLabel.textContent="Account ID";
-      uid.type="text";
-      uid.pattern=".*";
-      uid.placeholder="مثال: 0x32Be343B94f860124dC4fEe278FDCBD38C102D88";
+  platform.addEventListener('change', () => {
+    if(platform.value === "Stake" || platform.value === "MyStake"){
+      idLabel.textContent = "Wallet Address";
+      uid.type = "text";
+      uid.pattern = ".*";
+      uid.placeholder = "مثال: 0x32Be343B94f860124dC4fEe278FDCBD38C102D88";
       uid.removeAttribute("inputmode");
       uid.removeAttribute("maxlength");
-    }else{
-      idLabel.textContent="Account ID";
-      uid.type="text";
-      uid.pattern="[0-9]{4,15}";
-      uid.placeholder="مثال: 87654321";
+    } else {
+      idLabel.textContent = "Account ID";
+      uid.type = "text";
+      uid.pattern = "[0-9]{4,15}";
+      uid.placeholder = "مثال: 87654321";
       uid.setAttribute("inputmode","numeric");
       uid.setAttribute("maxlength","15");
     }
     valid();
   });
 
-  uid.addEventListener('input',valid);
+  uid.addEventListener('input', valid);
 </script>
 
 </body>
