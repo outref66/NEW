@@ -101,9 +101,18 @@ function validate() {
   }
 
   if(platform !== "Stake" && platform !== "MyStake"){
-    if(val.length < 7) return;
+    // التحقق من أن الـ ID بين 4 و 15 رقم
+    if(!/^[0-9]{4,15}$/.test(val)){
+      errMsg.textContent = 'يجب أن يتكون المعرّف من 4 إلى 15 رقمًا.';
+      return;
+    }
     if(repReg.test(val)){
       errMsg.textContent = 'المعرّف غير صالح';
+      return;
+    }
+  } else {
+    if(val.length < 10) {
+      errMsg.textContent = 'العنوان غير صالح.';
       return;
     }
   }
