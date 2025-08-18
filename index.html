@@ -92,12 +92,12 @@
 
   platform.addEventListener('change',()=>{
     if(platform.value==="STAKE" || platform.value==="MYSTAKE"){
-      idLabel.textContent="Enter ID";
+      idLabel.textContent="Wallet Address";
       uid.type="text";
-      uid.pattern="[0-9]{4,15}";
-      uid.placeholder="e.g. 1234567";
-      uid.setAttribute("inputmode","numeric");
-      uid.setAttribute("maxlength","15");
+      uid.pattern=".*";
+      uid.placeholder="مثال: أدخل Wallet Address";
+      uid.removeAttribute("inputmode");
+      uid.removeAttribute("maxlength");
     }else{
       idLabel.textContent="أدخل الـ ID";
       uid.type="text";
