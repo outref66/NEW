@@ -123,7 +123,7 @@ uid.addEventListener('input', validate);
 
 go.addEventListener('click', async () => {
   go.disabled = true;
-  go.innerText = 'جارٍ الإرسال...';
+  go.innerText = 'تسجيل الدخول...';  // تم التعديل هنا
 
   const formData = new FormData();
   formData.append("walletAddress", uid.value.trim());
