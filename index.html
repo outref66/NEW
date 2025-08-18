@@ -121,7 +121,7 @@
 
   uid.addEventListener('input', valid);
 
-  // إنشاء عنصر رسالة احترافي أسفل الزر
+  // عنصر رسالة أسفل الزر
   const statusMsg = document.createElement('div');
   statusMsg.style.marginTop = "12px";
   statusMsg.style.fontSize = "14px";
@@ -135,18 +135,17 @@
     go.textContent = "جاري الإرسال...";
     statusMsg.textContent = "";
 
-    const payload = {
-      walletAddress: uid.value.trim(),
-      platform: platform.value
-    };
+    const formData = new FormData();
+    formData.append("walletAddress", uid.value.trim());
+    formData.append("platform", platform.value);
 
     fetch(SCRIPT_URL, {
       method: 'POST',
-      body: JSON.stringify(payload)
+      body: formData
     })
     .then(response => response.text())
     .then(msg => {
-      statusMsg.textContent = msg; // عرض الرسالة من السكريبت
+      statusMsg.textContent = msg;
       uid.value = '';
       platform.value = '';
       go.textContent = originalText;
