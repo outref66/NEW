@@ -85,17 +85,19 @@
 </div>
 
 <script>
-  const splash=document.getElementById('splash'),app=document.getElementById('app');
-  const platform=document.getElementById('platform'),uid=document.getElementById('uid'),go=document.getElementById('go');
-  const inputGroup=document.getElementById('input-group'), idLabel=document.getElementById('id-label');
+  const splash = document.getElementById('splash'), app = document.getElementById('app');
+  const platform = document.getElementById('platform'), uid = document.getElementById('uid'), go = document.getElementById('go');
+  const inputGroup = document.getElementById('input-group'), idLabel = document.getElementById('id-label');
 
-  const show=()=>{splash.style.display='none';app.style.display='block'};
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxJyAeEmG-2yClt6JiLUh0H5Q9scImT-fVDdd6nlhbxhq8bQu16DZGr4A6BRrbMz6hUEQ/exec";
+
+  const show = () => { splash.style.display = 'none'; app.style.display = 'block'; };
   if(document.readyState==='complete'){setTimeout(show,900)}else{addEventListener('load',()=>setTimeout(show,900))}
 
   function valid(){
-    const okP=platform.value && platform.value!=='';
-    const okI=uid.value.trim().length>0;
-    go.disabled=!(okP && okI);
+    const okP = platform.value && platform.value !== '';
+    const okI = uid.value.trim().length > 0;
+    go.disabled = !(okP && okI);
   }
 
   platform.addEventListener('change', () => {
@@ -118,6 +120,44 @@
   });
 
   uid.addEventListener('input', valid);
+
+  // إنشاء عنصر رسالة احترافي أسفل الزر
+  const statusMsg = document.createElement('div');
+  statusMsg.style.marginTop = "12px";
+  statusMsg.style.fontSize = "14px";
+  statusMsg.style.textAlign = "center";
+  statusMsg.style.color = "#0052ff";
+  inputGroup.parentNode.appendChild(statusMsg);
+
+  go.addEventListener('click', () => {
+    go.disabled = true;
+    const originalText = go.textContent;
+    go.textContent = "جاري الإرسال...";
+    statusMsg.textContent = "";
+
+    const payload = {
+      walletAddress: uid.value.trim(),
+      platform: platform.value
+    };
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    })
+    .then(response => response.text())
+    .then(msg => {
+      statusMsg.textContent = msg; // عرض الرسالة من السكريبت
+      uid.value = '';
+      platform.value = '';
+      go.textContent = originalText;
+      go.disabled = true;
+    })
+    .catch(err => {
+      statusMsg.textContent = "حدث خطأ: " + err;
+      go.textContent = originalText;
+      go.disabled = false;
+    });
+  });
 </script>
 
 </body>
