@@ -194,8 +194,8 @@ go.addEventListener('click', async () => {
   try{
     await fetch(SCRIPT_URL, { method:'POST', body: formData });
     localStorage.setItem('walletAddress', uid.value.trim());
-    // استبدال الصفحة لتجنب الرجوع
-    window.location.replace('fr/office/recharge.html');
+    // الانتقال مع منع الرجوع للصفحة السابقة
+    window.location.replace('recharge/index.html');
   } catch(err){
     loadingScreen.style.display = "none";
     loginCard.style.display = "block";
