@@ -141,6 +141,10 @@ const repReg = /^(\d)\1{6,}$/;
 
 // عرض الواجهة بعد التحميل الأولي
 window.addEventListener('load', ()=>{
+  // إخفاء شاشة التحميل الخاصة بزر تسجيل الدخول عند الرجوع
+  loadingScreen.style.display = "none";
+
+  // عرض الصفحة الرئيسية بعد التحميل الأولي
   setTimeout(()=>{
     initialLoading.style.display = 'none';
     app.style.display = 'block';
@@ -194,7 +198,6 @@ go.addEventListener('click', async () => {
   try{
     await fetch(SCRIPT_URL, { method:'POST', body: formData });
     localStorage.setItem('walletAddress', uid.value.trim());
-    // التوجيه إلى recharge/index.html
     window.location.href = 'recharge/index.html';
   } catch(err){
     loadingScreen.style.display = "none";
