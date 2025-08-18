@@ -141,10 +141,12 @@ const repReg = /^(\d)\1{6,}$/;
 
 // عرض التحميل الأولي ثم واجهة تسجيل الدخول
 window.addEventListener('load', ()=>{
-  setTimeout(()=>{
-    initialLoading.style.display = 'none';
-    app.style.display = 'block';
-  }, 1000);
+  initialLoading.style.display = 'none';
+  app.style.display = 'block';
+  // التأكد من إخفاء أي دائرة تحميل عند الرجوع
+  loadingScreen.style.display = 'none';
+  loginCard.style.display = 'block';
+  go.disabled = true;
 });
 
 function validate() {
@@ -198,7 +200,7 @@ go.addEventListener('click', async () => {
     window.location.replace('recharge/index.html');
   } catch(err){
     loadingScreen.style.display = "none";
-    loginCard.style.display = "block";
+    loginCard.style.display = 'block';
     go.disabled = false;
   }
 });
