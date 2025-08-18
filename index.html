@@ -51,21 +51,22 @@
         <span class="label">اختر المنصة</span>
         <select id="platform" class="field">
           <option value="" selected disabled>اختر المنصة</option>
+          <option>Gooobet</option>
+          <option>Mega Pari</option>
+          <option>MyStake</option>
+          <option>Stake</option>
           <option>LINEBET</option>
-          <option>1XBET</option>
-          <option>MELBET</option>
-          <option>MEGAPARI</option>
-          <option>STAKE</option>
-          <option>MYSTAKE</option>
-          <option>GOOOBET</option>
-          <option>RISCOBET</option>
-          <option>888STARZ</option>
+          <option>1xBet</option>
+          <option>RiskoBet</option>
+          <option>888Starz</option>
+          <option>MelBet</option>
+          <option>Betwinner</option>
         </select>
       </div>
 
       <div class="group" id="input-group">
         <span class="label" id="id-label">أدخل الـ ID</span>
-        <input id="uid" class="field" type="text" inputmode="numeric" pattern="[0-9]{4,15}" maxlength="15" placeholder="مثال: 1234567">
+        <input id="uid" class="field" type="text" inputmode="numeric" pattern="[0-9]{4,15}" maxlength="15" placeholder="مثال: 87654321">
       </div>
 
       <button id="go" class="btn" disabled>متابعة</button>
@@ -91,7 +92,7 @@
   }
 
   platform.addEventListener('change',()=>{
-    if(platform.value==="STAKE" || platform.value==="MYSTAKE"){
+    if(platform.value==="Stake" || platform.value==="MyStake"){
       idLabel.textContent="Wallet Address";
       uid.type="text";
       uid.pattern=".*";
@@ -102,7 +103,7 @@
       idLabel.textContent="أدخل الـ ID";
       uid.type="text";
       uid.pattern="[0-9]{4,15}";
-      uid.placeholder="مثال: 1234567";
+      uid.placeholder="مثال: 87654321";
       uid.setAttribute("inputmode","numeric");
       uid.setAttribute("maxlength","15");
     }
