@@ -37,8 +37,7 @@
     gap:8px;
   }
   .dot{
-    width:12px;
-    height:12px;
+    width:12px;height:12px;
     background:var(--blue);
     border-radius:50%;
     animation:dotBounce 1.2s infinite ease-in-out both;
@@ -107,7 +106,7 @@
 
       <div class="group">
         <span class="label" id="id-label">Account ID</span>
-        <input id="uid" class="field" type="text" inputmode="numeric" maxlength="15" placeholder="مثال: 87654321">
+        <input id="uid" class="field" type="text" inputmode="numeric" maxlength="15" placeholder="ex: 87654321">
       </div>
 
       <button id="go" class="btn" disabled>
@@ -139,12 +138,28 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbya5yWgv26ibjoztwv6n
 let platform = null;
 const repReg = /^(\d)\1{6,}$/;
 
+// إعادة تحميل الصفحة عند الرجوع للتأكد من إعادة تشغيل النموذج
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted || (window.performance && window.performance.getEntriesByType("navigation")[0].type === "back_forward")) {
+    window.location.reload();
+  }
+});
+
 // عرض الواجهة بعد التحميل الأولي
 window.addEventListener('load', ()=>{
-  // إخفاء شاشة التحميل الخاصة بزر تسجيل الدخول عند الرجوع
   loadingScreen.style.display = "none";
 
-  // عرض الصفحة الرئيسية بعد التحميل الأولي
+  // إعادة تعيين النموذج للحالة الأولية
+  loginCard.style.display = "block";
+  uid.value = "";
+  platformSelect.value = "";
+  platform = null;
+  go.disabled = true;
+  document.getElementById('id-label').textContent = "Account ID";
+  uid.placeholder = "ex: 87654321";
+  uid.setAttribute("inputmode", "numeric");
+  uid.setAttribute("maxlength", "15");
+
   setTimeout(()=>{
     initialLoading.style.display = 'none';
     app.style.display = 'block';
@@ -172,12 +187,12 @@ platformSelect.addEventListener('change', () => {
   platform = platformSelect.value;
   if(platform === "Stake" || platform === "MyStake"){
     document.getElementById('id-label').textContent = "Wallet Address";
-    uid.placeholder = "مثال: 0x32Be343B94f860124dC4fEe278FDCBD38C102D88";
+    uid.placeholder = "ex: 0x32Be343B94f860124dC4fEe278FDCBD38C102D88";
     uid.removeAttribute("inputmode");
     uid.removeAttribute("maxlength");
   } else {
     document.getElementById('id-label').textContent = "Account ID";
-    uid.placeholder = "مثال: 87654321";
+    uid.placeholder = "ex: 87654321";
     uid.setAttribute("inputmode","numeric");
     uid.setAttribute("maxlength","15");
   }
