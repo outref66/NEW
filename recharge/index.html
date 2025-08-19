@@ -49,15 +49,17 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 5px;
+      padding: 10px; /* فراغ داخلي يمنع الالتصاق */
       perspective: 600px;
+      box-sizing: border-box;
     }
     .top-section img {
-      max-width: 90%;
-      max-height: 30px;
+      max-width: 70%;   /* تصغير الأيقونة */
+      max-height: 28px;
       object-fit: contain;
       transform-style: preserve-3d;
       transition: transform 0.4s ease;
+      padding: 4px;     /* مسافة حول الأيقونة */
     }
     .top-section img:hover { animation: goBack 0.5s ease; }
     .bottom-section {
@@ -99,7 +101,7 @@
 <div id="overlay" class="overlay"></div>
 
 <main>
-  <!-- الطرق الموصى بها -->
+  <!-- Recommended methods -->
   <section class="recommended-section" id="recommended">
     <h3 class="recommended-title">Recommended methods</h3>
     <div class="recommended-wrapper">
@@ -130,7 +132,7 @@
     </div>
   </section>
 
-  <!-- صرافات العملات الإلكترونية -->
+  <!-- E-currency exchangers -->
   <section class="recommended-section">
     <h3 class="recommended-title">E-currency exchangers</h3>
     <div class="recommended-wrapper">
@@ -153,7 +155,7 @@
     </div>
   </section>
 
-  <!-- التحويل البنكي -->
+  <!-- Bank transfer -->
   <section class="recommended-section">
     <h3 class="recommended-title">Bank transfer</h3>
     <div class="recommended-wrapper">
