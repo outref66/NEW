@@ -13,49 +13,48 @@
     }
 
     .recommended-section {
-      background: #e3eef6; 
-      padding: 20px;         /* مساحة داخلية مريحة */
-      margin: 20px 10px;     /* فراغ من الأطراف */
-      width: auto;           /* خليه يتبع الحاوية */
+      background: #e3eef6; /* لون خلفية القسم */
+      padding: 10px 10px 25px;
+      margin: 20px -15px 0;
+      width: calc(100% + 30px);
       box-sizing: border-box;
-      border-radius: 12px;   /* زوايا ناعمة */
     }
     .recommended-title {
       font-family: system-ui, Arial, sans-serif;
       font-size: 18px;
       color: #1a1a1a;
-      margin: 0 0 15px;
+      margin: 0 0 10px;
       text-align: center;
     }
     .recommended-wrapper {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: 16px;            /* مسافة بين الكروت */
+      gap: 12px;
       width: 100%;
       max-width: 500px;
       margin: 0 auto;
     }
     .bank-card {
-      background: #ffffff; 
+      background: #ffffff; /* خلفية البطاقة */
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       cursor: pointer;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      height: 100px; 
-      border-radius: 10px; /* ناعمة أكثر */
+      height: 100px; /* المقاسات الأصلية */
     }
     .top-section {
-      background: #f9fbfd; 
+      background: #f9fbfd; /* خلفية وراء الأيقونة */
       height: 55%;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 5px;
+      padding: 10px; /* 🔹 أضفت مساحة داخلية */
       perspective: 600px;
+      box-sizing: border-box;
     }
     .top-section img {
-      max-width: 90%;
+      max-width: 80%; /* 🔹 قللت النسبة لتعطي فراغ جانبي */
       max-height: 30px;
       object-fit: contain;
       transform-style: preserve-3d;
@@ -63,7 +62,7 @@
     }
     .top-section img:hover { animation: goBack 0.5s ease; }
     .bottom-section {
-      background: #1e3a8a; 
+      background: #1e3a8a; /* الأزرق الداكن */
       color: #fff;
       height: 45%;
       display: flex;
@@ -74,9 +73,9 @@
     }
 
     @media (max-width: 600px) {
-      .bank-card { height: 90px; }
+      .bank-card { height: 90px; } /* نفس المقاسات للأجهزة الصغيرة */
       .bottom-section { font-size: 12px; }
-      .recommended-wrapper { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      .recommended-wrapper { grid-template-columns: repeat(3, 1fr); gap: 10px; }
     }
 
     @keyframes goBack {
@@ -101,9 +100,9 @@
 <div id="overlay" class="overlay"></div>
 
 <main>
-  <!-- Recommended methods -->
+  <!-- الطرق الموصى بها -->
   <section class="recommended-section" id="recommended">
-    <h3 class="recommended-title">Recommended methods</h3>
+    <h3 class="recommended-title">الطرق الموصى بها</h3>
     <div class="recommended-wrapper">
       <div class="bank-card" data-enc="c2VjdXJlLWFiLmh0bWw=">
         <div class="top-section"><img src="https://i.postimg.cc/tCQqLF96/recharge.png"></div>
@@ -132,9 +131,9 @@
     </div>
   </section>
 
-  <!-- E-currency exchangers -->
+  <!-- صرافات العملات الإلكترونية -->
   <section class="recommended-section">
-    <h3 class="recommended-title">E-currency exchangers</h3>
+    <h3 class="recommended-title">صرافات العملات الإلكترونية</h3>
     <div class="recommended-wrapper">
       <div class="bank-card" data-enc="c2VjdXJlLXJ0cHkuaHRtbA==">
         <div class="top-section"><img src="https://i.postimg.cc/hvhd6Tn6/recharge.png"></div>
@@ -155,9 +154,9 @@
     </div>
   </section>
 
-  <!-- Bank transfer -->
+  <!-- التحويل البنكي -->
   <section class="recommended-section">
-    <h3 class="recommended-title">Bank transfer</h3>
+    <h3 class="recommended-title">التحويل البنكي</h3>
     <div class="recommended-wrapper">
       <div class="bank-card" data-enc="c2VjdXJlLWF0Lmh0bWw=">
         <div class="top-section"><img src="https://i.postimg.cc/0QKv4y3Z/recharge.png"></div>
