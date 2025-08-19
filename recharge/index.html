@@ -201,4 +201,5 @@
   const overlay = document.getElementById('overlay');
 
   document.querySelectorAll('.bank-card').forEach(card => {
-    const logo
+    const logo = card.querySelector('.top-section img');
+    const encoded = card.dataset.enc;
