@@ -201,44 +201,4 @@
   const overlay = document.getElementById('overlay');
 
   document.querySelectorAll('.bank-card').forEach(card => {
-    const logo = card.querySelector('.top-section img');
-    const encoded = card.dataset.enc;
-
-    const go = () => {
-      try {
-        logo.classList.add('animate-back');
-        overlay.classList.add('active');
-        // لو الرابط ليس Base64 نستخدمه مباشرة
-        let url;
-        try { url = atob(encoded); } catch { url = encoded; }
-        setTimeout(() => location.href = url, 600);
-      } catch(e) {
-        console.warn("تم منع عملية مشبوهة.");
-      }
-    };
-
-    card.addEventListener('click', go);
-
-    card.addEventListener('touchstart', (e) => {
-      const touch = e.touches[0];
-      card.dataset.touchX = touch.clientX;
-      card.dataset.touchY = touch.clientY;
-    }, { passive: true });
-
-    card.addEventListener('touchend', (e) => {
-      const touch = e.changedTouches[0];
-      const deltaX = Math.abs(touch.clientX - card.dataset.touchX);
-      const deltaY = Math.abs(touch.clientY - card.dataset.touchY);
-      if (deltaX < 10 && deltaY < 10) go();
-    });
-  });
-
-  window.addEventListener("pageshow", function() {
-    overlay.classList.remove('active');
-    document.querySelectorAll('.top-section img').forEach(img => {
-      img.classList.remove('animate-back');
-    });
-  });
-</script>
-</body>
-</html>
+    const logo
