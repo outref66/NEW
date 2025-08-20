@@ -126,6 +126,7 @@
       justify-content: center;
       position: relative;
       border-radius: 0;
+      flex-shrink: 0;
     }
     .upload-section input[type="file"] { display: none; }
     .upload-section label {
@@ -136,11 +137,11 @@
       user-select: none;
     }
     .preview-image {
-      width: 60px;
-      height: 60px;
+      width: 80px;
+      height: 80px;
       border-radius: 0;
       object-fit: cover;
-      border: 1px solid #ccc;
+      border: 2px solid #fff;
       display: none;
     }
     .note {
@@ -150,7 +151,7 @@
       margin-bottom: 15px;
     }
     .submit-btn {
-      background-color: #1c4729;
+      background-color: #0066FF;
       color: #fff;
       font-size: 17px;
       padding: 14px;
@@ -161,16 +162,15 @@
       transition: background-color 0.3s ease;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
-    .submit-btn:hover:not(:disabled) { background-color: #27653d; }
+    .submit-btn:hover:not(:disabled) { background-color: #0052cc; }
     .submit-btn:disabled {
       background-color: #999;
       cursor: not-allowed;
     }
   </style>
-</head>
-<body>
+</head><body>
   <div class="main-box">
-    <a href="dashboard.html" class="exit-button" title="إغلاق">×</a>
+    <a href="recharge/index.html" class="exit-button" title="إغلاق">×</a>
     <div class="logo-box">
       <img src="https://i.postimg.cc/KjyqJ6wD/recharge.png" alt="recharge-logo" />
     </div>
@@ -208,7 +208,7 @@
         <div class="info-block">
           <div class="info-label">NOM e prénom / الإسم الكامل لصاحب الحساب البنكي:</div>
           <div class="info-input">
-         <input type="text" name="sender_name" id="sender_name" oninput="validateName(this)" required>
+            <input type="text" name="sender_name" id="sender_name" oninput="validateName(this)" required>
           </div>
         </div>
         <div class="info-block" style="flex-direction: column; align-items: flex-start;">
@@ -227,110 +227,109 @@
     </div>
   </div>
 
-  <input type="text" id="hiddenCopyInput" style="position:absolute;top:-9999px;left:-9999px;" readonly />
+  <input type="text" id="hiddenCopyInput" style="position:absolute;top:-9999px;left:-9999px;" readonly /><script>
+  function copyText(element, value) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(value).then(() => {
+        const msg = element.nextElementSibling;
+        msg.style.display = 'inline';
+        setTimeout(() => msg.style.display = 'none', 1200);
+      }).catch(() => fallbackCopy(element, value));
+    } else {
+      fallbackCopy(element, value);
+    }
+  }
 
-  <script>
-    function copyText(element, value) {
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(value).then(() => {
-          const msg = element.nextElementSibling;
-          msg.style.display = 'inline';
-          setTimeout(() => msg.style.display = 'none', 1200);
-        }).catch(() => fallbackCopy(element, value));
-      } else {
-        fallbackCopy(element, value);
-      }
+  function fallbackCopy(element, value) {
+    const input = document.getElementById('hiddenCopyInput');
+    input.value = value;
+    input.select();
+    document.execCommand('copy');
+    const msg = element.nextElementSibling;
+    msg.style.display = 'inline';
+    setTimeout(() => msg.style.display = 'none', 1200);
+  }
+
+  document.getElementById('proof').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    const preview = document.getElementById('preview');
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = ev => {
+        preview.src = ev.target.result;
+        preview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    } else {
+      preview.src = '';
+      preview.style.display = 'none';
+    }
+  });
+
+  const logo = document.querySelector('.logo-box img');
+  logo.addEventListener('mousedown', () => logo.classList.add('active'));
+  logo.addEventListener('mouseup', () => logo.classList.remove('active'));
+  logo.addEventListener('mouseleave', () => logo.classList.remove('active'));
+  logo.addEventListener('touchstart', () => logo.classList.add('active'));
+  logo.addEventListener('touchend', () => logo.classList.remove('active'));
+
+  function validateName(input) {
+    const latinOnly = input.value
+      .split('')
+      .filter(c => /^[a-zA-Z\s]$/.test(c))
+      .join('');
+    input.value = latinOnly;
+  }
+</script><script>
+  function getSecureURL() {
+    const part1 = "https://script.google.com/macros/s/";
+    const part2 = "AKfycby_yPgXCCFpvGRQ4Doa1FMfHS4jXd5y8p--fPQAFnADcFI6IcvfPp5WtZjt2GjqXzoneQ";
+    const part3 = "/exec";
+    return part1 + part2 + part3;
+  }
+
+  document.getElementById("transferForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const amount = form.amount.value.trim();
+    const fullname = form.sender_name.value.trim();
+    const file = document.getElementById("proof").files[0];
+    const submitBtn = document.getElementById("submitBtn");
+
+    if (!file || !fullname || !amount) {
+      alert("يرجى ملء جميع الحقول وتحميل الصورة.");
+      return;
     }
 
-    function fallbackCopy(element, value) {
-      const input = document.getElementById('hiddenCopyInput');
-      input.value = value;
-      input.select();
-      document.execCommand('copy');
-      const msg = element.nextElementSibling;
-      msg.style.display = 'inline';
-      setTimeout(() => msg.style.display = 'none', 1200);
+    submitBtn.disabled = true;
+    const originalText = submitBtn.innerText;
+    submitBtn.innerText = "جاري الإرسال...";
+
+    try {
+      const reader = new FileReader();
+      reader.onloadend = async function() {
+        const imageBase64 = reader.result;
+        const response = await fetch(getSecureURL(), {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+          body: new URLSearchParams({ amount, fullname, imageBase64 })
+        });
+        if (response.ok) {
+          window.location.replace("secure-recharge-cp.html");
+        } else {
+          alert("حدث خطأ أثناء الإرسال، حاول مرة أخرى.");
+          submitBtn.innerText = originalText;
+          submitBtn.disabled = false;
+        }
+      };
+      reader.readAsDataURL(file);
+    } catch (err) {
+      alert("تعذر إرسال الصورة.");
+      console.error(err);
+      submitBtn.innerText = originalText;
+      submitBtn.disabled = false;
     }
-
-    document.getElementById('proof').addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      const preview = document.getElementById('preview');
-      if (file && file.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.onload = ev => {
-          preview.src = ev.target.result;
-          preview.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-      } else {
-        preview.src = '';
-        preview.style.display = 'none';
-      }
-    });
-
-    const logo = document.querySelector('.logo-box img');
-    logo.addEventListener('mousedown', () => logo.classList.add('active'));
-    logo.addEventListener('mouseup', () => logo.classList.remove('active'));
-    logo.addEventListener('mouseleave', () => logo.classList.remove('active'));
-    logo.addEventListener('touchstart', () => logo.classList.add('active'));
-    logo.addEventListener('touchend', () => logo.classList.remove('active'));
-
-    function getSecureURL() {
-      const part1 = "https://script.google.com/macros/s/";
-      const part2 = "AKfycby_yPgXCCFpvGRQ4Doa1FMfHS4jXd5y8p--fPQAFnADcFI6IcvfPp5WtZjt2GjqXzoneQ";
-      const part3 = "/exec";
-      return part1 + part2 + part3;
-    }
-
-    document.getElementById("transferForm").addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const form = e.target;
-      const amount = form.amount.value.trim();
-      const fullname = form.sender_name.value.trim();
-      const file = document.getElementById("proof").files[0];
-      const submitBtn = document.getElementById("submitBtn");
-
-      if (!file || !fullname || !amount) {
-        alert("يرجى ملء جميع الحقول وتحميل الصورة.");
-        return;
-      }
-
-      submitBtn.disabled = true;
-      const originalText = submitBtn.innerText;
-      submitBtn.innerText = "جاري الإرسال...";
-
-      try {
-        const reader = new FileReader();
-        reader.onloadend = async function() {
-          const imageBase64 = reader.result;
-          const response = await fetch(getSecureURL(), {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-            body: new URLSearchParams({ amount, fullname, imageBase64 })
-          });
-          if (response.ok) {
-            window.location.replace("secure-recharge-cp.html");
-          } else {
-            alert("حدث خطأ أثناء الإرسال، حاول مرة أخرى.");
-            submitBtn.innerText = originalText;
-            submitBtn.disabled = false;
-          }
-        };
-        reader.readAsDataURL(file);
-      } catch (err) {
-        alert("تعذر إرسال الصورة.");
-        console.error(err);
-        submitBtn.innerText = originalText;
-        submitBtn.disabled = false;
-      }
-    });
-    function validateName(input) {
-  const latinOnly = input.value
-    .split('')
-    .filter(c => /^[a-zA-Z\s]$/.test(c))
-    .join('');
-  input.value = latinOnly;
-}
-  </script>
+  });
+</script>
 </body>
 </html>
