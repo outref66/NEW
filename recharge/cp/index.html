@@ -82,9 +82,10 @@
       width: 50%;
       display: flex;
       align-items: center;
+      justify-content: flex-start;
       gap: 4px;
       word-break: break-word;
-      padding: 0;
+      white-space: nowrap;
     }
     input[type="text"],
     input[type="number"] {
@@ -106,11 +107,12 @@
       font-feature-settings: "lnum";
       margin: 0;
       padding: 0;
-    }
-    .copy-icon img {
-      height: 20px;
-      cursor: pointer;
       display: inline-block;
+    }
+    .copy-icon img { 
+      height: 20px; 
+      cursor: pointer; 
+      display: inline-block; 
       vertical-align: middle;
     }
     .copied-text {
@@ -216,7 +218,7 @@
         <div class="info-block">
           <div class="info-label">NOM e prénom / الإسم الكامل لصاحب الحساب البنكي:</div>
           <div class="info-input">
-            <input type="text" name="sender_name" id="sender_name" oninput="validateName(this)" required>
+         <input type="text" name="sender_name" id="sender_name" oninput="validateName(this)" required>
           </div>
         </div>
         <div class="info-block" style="flex-direction: column; align-items: flex-start;">
@@ -333,12 +335,12 @@
       }
     });
     function validateName(input) {
-  const latinOnly = input.value
-    .split('')
-    .filter(c => /^[a-zA-Z\s]$/.test(c))
-    .join('');
-  input.value = latinOnly;
-}
+      const latinOnly = input.value
+        .split('')
+        .filter(c => /^[a-zA-Z\s]$/.test(c))
+        .join('');
+      input.value = latinOnly;
+    }
   </script>
 </body>
 </html>
