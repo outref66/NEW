@@ -82,8 +82,9 @@
       width: 50%;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       word-break: break-word;
+      padding: 0;
     }
     input[type="text"],
     input[type="number"] {
@@ -103,8 +104,15 @@
       direction: ltr;
       text-align: left;
       font-feature-settings: "lnum";
+      margin: 0;
+      padding: 0;
     }
-    .copy-icon img { height: 20px; cursor: pointer; }
+    .copy-icon img {
+      height: 20px;
+      cursor: pointer;
+      display: inline-block;
+      vertical-align: middle;
+    }
     .copied-text {
       color: green;
       font-size: 13px;
@@ -208,7 +216,7 @@
         <div class="info-block">
           <div class="info-label">NOM e prénom / الإسم الكامل لصاحب الحساب البنكي:</div>
           <div class="info-input">
-         <input type="text" name="sender_name" id="sender_name" oninput="validateName(this)" required>
+            <input type="text" name="sender_name" id="sender_name" oninput="validateName(this)" required>
           </div>
         </div>
         <div class="info-block" style="flex-direction: column; align-items: flex-start;">
