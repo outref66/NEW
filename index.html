@@ -39,7 +39,6 @@
 
 <div class="sysbar"></div>
 
-<!-- التحميل الأولي -->
 <div class="initial-loading" id="initial-loading">
   <div class="dot"></div>
   <div class="dot"></div>
@@ -48,8 +47,6 @@
 
 <div id="app" style="display:none;">
   <div class="shell">
-
-    <!-- اللوغو خارج الكارت -->
     <div style="text-align:center; margin-bottom:24px;">
       <img src="https://i.postimg.cc/L8yrTWhj/file-000000005ebc61f4a84ec1ac4e2b389b-1.png" 
            alt="Logo" style="width:150px; height:auto;">
@@ -72,6 +69,7 @@
           <option>888Starz</option>
           <option>MelBet</option>
           <option>Betwinner</option>
+          <option>Xparibet</option>
         </select>
       </div>
 
@@ -80,9 +78,7 @@
         <input id="uid" class="field" type="text" inputmode="numeric" maxlength="15" placeholder="ex: 87654321">
       </div>
 
-      <button id="go" class="btn" disabled>
-        تسجيل الدخول
-      </button>
+      <button id="go" class="btn" disabled>تسجيل الدخول</button>
 
       <div class="warn">
         بالضغط على زر المتابعة، أنت تؤكد أن عمرك 18 سنة فأكثر وأنك توافق على سياسة الخصوصية والشروط والأحكام.
@@ -91,7 +87,6 @@
   </div>
 </div>
 
-<!-- شاشة التحميل عند الضغط على تسجيل الدخول -->
 <div class="loading-screen" id="loading-screen">
   <div class="spinner"></div>
 </div>
@@ -109,14 +104,12 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbya5yWgv26ibjoztwv6n
 let platform = null;
 const repReg = /^(\d)\1{6,}$/;
 
-// إعادة تحميل الصفحة عند الرجوع للتأكد من إعادة تشغيل النموذج
 window.addEventListener('pageshow', (event) => {
   if (event.persisted || (window.performance && window.performance.getEntriesByType("navigation")[0].type === "back_forward")) {
     window.location.reload();
   }
 });
 
-// عرض الواجهة بعد التحميل الأولي
 window.addEventListener('load', ()=>{
   loadingScreen.style.display = "none";
   loginCard.style.display = "block";
