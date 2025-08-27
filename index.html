@@ -33,6 +33,11 @@
   .loading-screen{position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;z-index:999;display:none}
   .spinner{width:50px;height:50px;border:4px solid #dbeafe;border-top:4px solid var(--blue);border-radius:50%;animation:spin 1s linear infinite}
   @keyframes spin{100%{transform:rotate(360deg)}}
+
+  /* slider */
+  .slider-container{position:relative;overflow:hidden;width:100%;height:auto;margin-bottom:24px}
+  .slider-wrapper{display:flex;transition:transform 0.8s ease-in-out}
+  .slider-wrapper img{width:100%;flex-shrink:0;height:auto}
 </style>
 </head>
 <body>
@@ -47,9 +52,12 @@
 
 <div id="app" style="display:none;">
   <div class="shell">
-    <div style="text-align:center; margin-bottom:24px;">
-      <img src="https://i.postimg.cc/L8yrTWhj/file-000000005ebc61f4a84ec1ac4e2b389b-1.png" 
-           alt="Logo" style="width:150px; height:auto;">
+
+    <div class="slider-container">
+      <div class="slider-wrapper" id="slider">
+        <img src="https://i.postimg.cc/L8yrTWhj/file-000000005ebc61f4a84ec1ac4e2b389b-1.png" alt="Logo 1">
+        <img src="https://i.postimg.cc/qqQsTcMS/file-0000000036f4624687082e461e11bb4f-1.png" alt="Logo 2">
+      </div>
     </div>
 
     <div class="card" id="login-card">
@@ -182,6 +190,23 @@ go.addEventListener('click', async () => {
     go.disabled = false;
   }
 });
+
+/* slider script */
+let index = 0;
+const slider = document.getElementById("slider");
+const slides = slider.children;
+setInterval(()=>{
+  if(index === slides.length - 1){
+    slider.style.transition = "none"; 
+    slider.style.transform = "translateX(0)"; 
+    index = 0;
+    setTimeout(()=>{slider.style.transition = "transform 0.8s ease-in-out";},50);
+  } else {
+    index++;
+    slider.style.transition = "transform 0.8s ease-in-out";
+    slider.style.transform = `translateX(-${index * 100}%)`;
+  }
+},4000);
 </script>
 
 </body>
