@@ -33,10 +33,8 @@
   .loading-screen{position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;z-index:999;display:none}
   .spinner{width:50px;height:50px;border:4px solid #dbeafe;border-top:4px solid var(--blue);border-radius:50%;animation:spin 1s linear infinite}
   @keyframes spin{100%{transform:rotate(360deg)}}
-
-  /* slider */
-  .slider-container{position:relative;overflow:hidden;width:100%;height:auto;margin-bottom:24px;text-align:center}
-  .slider-container img{width:100%;height:auto;display:none}
+  .slider-container{position:relative;overflow:hidden;width:100%;margin-bottom:24px;text-align:center}
+  .slider-container img{width:85%;max-width:280px;height:auto;display:none;margin:0 auto}
   .slider-container img.active{display:block}
 </style>
 </head>
@@ -189,14 +187,13 @@ go.addEventListener('click', async () => {
   }
 });
 
-/* slider بسيط: تبديل فجائي بين صورتين */
 let current = 0;
 const imgs = document.querySelectorAll(".slider-container img");
 setInterval(()=>{
   imgs[current].classList.remove("active");
   current = (current + 1) % imgs.length;
   imgs[current].classList.add("active");
-},4000);
+},3000);
 </script>
 
 </body>
