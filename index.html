@@ -24,6 +24,7 @@
   .btn{width:100%;height:48px;border:0;border-radius:8px;background:#0052ff;color:#fff;font-weight:600;font-size:15px;cursor:pointer}
   .btn[disabled]{opacity:.6;cursor:not-allowed}
   .warn{font-size:12px;color:#444;line-height:1.7;margin-top:12px;text-align:center}
+
   .initial-loading{
     position:fixed;
     inset:0;
@@ -87,6 +88,7 @@
       </div>
 
       <div class="title">الدخول إلى حسابي</div>
+
       <div class="group">
         <span class="label">حدد المنصة</span>
         <select id="platform" class="field">
@@ -124,6 +126,7 @@
 <div class="loading-screen" id="loading-screen">
   <div class="spinner"></div>
 </div>
+
 <script>
 const initialLoading = document.getElementById('initial-loading');
 const app = document.getElementById('app');
@@ -160,6 +163,7 @@ window.addEventListener('load', ()=>{
     app.style.display = 'block';
   }, 1000);
 });
+
 function validate() {
   let val = uid.value.trim();
   if(platform === "Stake" || platform === "MyStake"){
@@ -218,4 +222,3 @@ go.addEventListener('click', async () => {
 
 </body>
 </html>
-</body>
