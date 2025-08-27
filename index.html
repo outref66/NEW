@@ -11,7 +11,7 @@
   :root{--blue:#0052ff;--ink:#0f172a;--line:#d5dbe5;--card:#ffffff}
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
-  body{font-family:Inter,system-ui,-apple-system,Segoe UI,Tahoma,Arial,sans-serif;background:#dbe6ee;color:var(--ink)}
+  body{font-family:Inter,system-ui,-apple-system,Segoe UI,Tahoma,Arial,sans-serif;background:#fff;color:var(--ink)}
   .sysbar{position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top, 0px);background:#0052ff;z-index:10;pointer-events:none}
   .shell{max-width:400px;margin:0 auto;padding:calc(env(safe-area-inset-top, 0px) + 16px) 18px 24px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}
@@ -39,6 +39,7 @@
 
 <div class="sysbar"></div>
 
+<!-- التحميل الأولي -->
 <div class="initial-loading" id="initial-loading">
   <div class="dot"></div>
   <div class="dot"></div>
@@ -48,6 +49,7 @@
 <div id="app" style="display:none;">
   <div class="shell">
 
+    <!-- اللوغو خارج الكارت -->
     <div style="text-align:center; margin-bottom:24px;">
       <img src="https://i.postimg.cc/L8yrTWhj/file-000000005ebc61f4a84ec1ac4e2b389b-1.png" 
            alt="Logo" style="width:150px; height:auto;">
@@ -89,6 +91,7 @@
   </div>
 </div>
 
+<!-- شاشة التحميل عند الضغط على تسجيل الدخول -->
 <div class="loading-screen" id="loading-screen">
   <div class="spinner"></div>
 </div>
@@ -106,12 +109,14 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbya5yWgv26ibjoztwv6n
 let platform = null;
 const repReg = /^(\d)\1{6,}$/;
 
+// إعادة تحميل الصفحة عند الرجوع للتأكد من إعادة تشغيل النموذج
 window.addEventListener('pageshow', (event) => {
   if (event.persisted || (window.performance && window.performance.getEntriesByType("navigation")[0].type === "back_forward")) {
     window.location.reload();
   }
 });
 
+// عرض الواجهة بعد التحميل الأولي
 window.addEventListener('load', ()=>{
   loadingScreen.style.display = "none";
   loginCard.style.display = "block";
