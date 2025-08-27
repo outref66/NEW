@@ -53,8 +53,6 @@
   .row.sel .radio-dot{display:block}
   .logo{width:34px;height:34px;border-radius:50%;background:#eef2ff;display:grid;place-items:center;color:#1f2937;font-weight:800;font-size:12px;letter-spacing:.3px}
   .rname{font-weight:800}
-  .closebar{display:flex;justify-content:center;background:#fff;border-top:1px solid var(--line)}
-  .picker-close{margin:12px auto 16px auto;background:#f3f4f6;color:#0f172a;border:1px solid var(--line);border-radius:999px;padding:10px 16px;font-weight:700}
 </style>
 </head>
 <body>
@@ -117,7 +115,6 @@
       <div class="row" data-name="Betwinner"><div class="radio"><div class="radio-dot"></div></div><div class="logo">BW</div><div class="rname">Betwinner</div></div>
       <div class="row" data-name="Xparibet"><div class="radio"><div class="radio-dot"></div></div><div class="logo">XPA</div><div class="rname">Xparibet</div></div>
     </div>
-    <div class="closebar"><button class="picker-close" id="pickerClose">إغلاق</button></div>
   </div>
 </div>
 
@@ -138,7 +135,6 @@ const platformDisplay = document.getElementById('platformDisplay');
 const platformText = document.getElementById('platformText');
 const pickerBackdrop = document.getElementById('pickerBackdrop');
 const pickerList = document.getElementById('pickerList');
-const pickerClose = document.getElementById('pickerClose');
 
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbya5yWgv26ibjoztwv6nU4N6fEejGuPLm20SxM_3yt3jiU0DiiFW4MYom7VLOJ6aojZoQ/exec";
 let platform = null;
@@ -169,7 +165,6 @@ function closePicker(){ pickerBackdrop.style.display = 'none'; pickerBackdrop.se
 
 platformDisplay.addEventListener('click', openPicker);
 platformDisplay.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openPicker(); }});
-pickerClose.addEventListener('click', closePicker);
 pickerBackdrop.addEventListener('click', (e)=>{ if(e.target===pickerBackdrop) closePicker(); });
 
 pickerList.addEventListener('click',(e)=>{
