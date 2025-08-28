@@ -112,20 +112,27 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.25);
       position: relative;
     }
-    .modal-header {
-      height: 35px;
-      background: #f2f2f2;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      padding: 0 10px;
-    }
+
+    /* زر الإغلاق × خارج الصندوق */
     .close-btn {
+      position: fixed;   /* زر عائم */
+      top: 15px;
+      right: 15px;
       cursor: pointer;
-      font-size: 20px;
-      font-weight: bold;
-      color: #333;
+      font-size: 28px;
+      font-weight: normal;
+      color: #666;
+      background: transparent;
+      border: none;
+      line-height: 1;
+      transition: 0.2s;
+      z-index: 3000; /* فوق overlay */
     }
+    .close-btn:hover {
+      color: #000;
+      transform: scale(1.1);
+    }
+
     .modal-body {
       flex: 1;
     }
@@ -139,10 +146,10 @@
 <body>
 
 <div id="overlay" class="overlay">
+  <!-- ❌ زر إغلاق خارج الصندوق -->
+  <button id="closeModal" class="close-btn">×</button>
+
   <div class="modal-box">
-    <div class="modal-header">
-      <span id="closeModal" class="close-btn">✖</span>
-    </div>
     <div class="modal-body">
       <iframe id="modalFrame"></iframe>
     </div>
