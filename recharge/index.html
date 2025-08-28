@@ -101,7 +101,7 @@
     }
     .overlay.active { left: 0; }
 
-    /* === الكتلة (modal) === */
+    /* === المودال === */
     .modal {
       background: #fff;
       border-radius: 10px;
@@ -137,6 +137,7 @@
   </style>
 </head>
 <body>
+<!-- Overlay / Modal -->
 <div id="overlay" class="overlay">
   <div class="modal">
     <div class="modal-header">
@@ -153,34 +154,34 @@
   <section class="recommended-section" id="recommended">
     <h3 class="recommended-title">Recommended methods</h3>
     <div class="recommended-wrapper">
-      <div class="bank-card" data-title="CIH" data-content="هنا يمكن عرض محتوى CIH">
+      <div class="bank-card" data-title="CIH" data-url="ch/index.html">
         <div class="top-section"><img src="https://i.postimg.cc/6pHN5ZxY/recharge.png"></div>
         <div class="bottom-section">CIH</div>
       </div>
-      <div class="bank-card" data-title="Cash Plus" data-content="محتوى Cash Plus">
+      <div class="bank-card" data-title="Cash Plus" data-url="cp/index.html">
         <div class="top-section"><img src="https://i.postimg.cc/vZ2pdd5K/recharge.png"></div>
         <div class="bottom-section">Cash Plus</div>
       </div>
-      <div class="bank-card" data-title="Al Barid" data-content="محتوى Al Barid">
+      <div class="bank-card" data-title="Al Barid" data-url="ab/index.html">
         <div class="top-section"><img src="https://i.postimg.cc/tCQqLF96/recharge.png"></div>
         <div class="bottom-section">Al Barid</div>
       </div>
-      <div class="bank-card" data-title="Banque Populaire" data-content="محتوى Banque Populaire">
+      <div class="bank-card" data-title="Banque Populaire" data-url="bp/index.html">
         <div class="top-section"><img src="https://i.postimg.cc/8cwZBhHY/recharge.png"></div>
         <div class="bottom-section">Banque Populaire</div>
       </div>
-      <div class="bank-card" data-title="Barid Pay" data-content="محتوى Barid Pay">
+      <div class="bank-card" data-title="Barid Pay" data-url="bpy/index.html">
         <div class="top-section"><img src="https://i.postimg.cc/wjrbGQp8/recharge.png"></div>
         <div class="bottom-section">Barid Pay</div>
       </div>
-      <div class="bank-card" data-title="Attijari" data-content="محتوى Attijari">
+      <div class="bank-card" data-title="Attijari" data-url="at/index.html">
         <div class="top-section"><img src="https://i.postimg.cc/0QKv4y3Z/recharge.png"></div>
         <div class="bottom-section">Attijari</div>
       </div>
     </div>
   </section>
 
-  <!-- باقي الأقسام نفس الشكل (ما مسحتش) -->
+  <!-- باقي الأقسام بنفس الشكل -->
 </main>
 
 <script>
@@ -191,15 +192,26 @@
 
   document.querySelectorAll('.bank-card').forEach(card => {
     const logo = card.querySelector('.top-section img');
+    const url = card.dataset.url; // رابط الصفحة الخارجية
 
     const go = () => {
       try {
         logo.classList.add('animate-back');
         overlay.classList.add('active');
 
-        // بدل العنوان والمحتوى من data attributes
+        // العنوان
         modalTitle.textContent = card.dataset.title || "عنوان";
-        modalBody.textContent = card.dataset.content || "محتوى فارغ";
+
+        // جلب المحتوى من ملف خارجي
+        fetch(url)
+          .then(response => response.text())
+          .then(html => {
+            modalBody.innerHTML = html;
+          })
+          .catch(err => {
+            modalBody.innerHTML = "<p style='color:red'>تعذر تحميل المحتوى</p>";
+            console.error("خطأ:", err);
+          });
       } catch(e) {
         console.warn("تم منع عملية مشبوهة.");
       }
@@ -223,10 +235,14 @@
 
   closeBtn.addEventListener('click', () => {
     overlay.classList.remove('active');
+    modalBody.innerHTML = ""; // إفراغ المحتوى عند الإغلاق
   });
 
   overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) overlay.classList.remove('active');
+    if (e.target === overlay) {
+      overlay.classList.remove('active');
+      modalBody.innerHTML = "";
+    }
   });
 
   window.addEventListener("pageshow", function() {
