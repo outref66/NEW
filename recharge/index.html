@@ -54,16 +54,12 @@
       justify-content: center;
       align-items: center;
       padding: 5px;
-      perspective: 600px;
     }
     .top-section img {
       max-width: 90%;
       max-height: 30px;
       object-fit: contain;
-      transform-style: preserve-3d;
-      transition: transform 0.4s ease;
     }
-    .top-section img:hover { animation: goBack 0.5s ease; }
     .bottom-section {
       background: #1e3a8a;
       color: #fff;
@@ -81,18 +77,11 @@
       .recommended-wrapper { grid-template-columns: repeat(3, 1fr); gap: 10px; }
     }
 
-    @keyframes goBack {
-      0% { transform: translateZ(0); }
-      50% { transform: translateZ(-80px); }
-      100% { transform: translateZ(0); }
-    }
-    .animate-back { animation: goBack 0.5s ease; }
-
     .overlay {
       position: fixed;
       top: 0; left: -100%;
       width: 100%; height: 100%;
-      background: rgba(0,0,0,0.4);
+      background: rgba(0,0,0,0.6);
       z-index: 2000;
       transition: left 0.4s ease;
       display: flex;
@@ -105,9 +94,9 @@
     .modal {
       background: #fff;
       border-radius: 10px;
-      max-width: 90%;
-      width: 500px;
-      height: 70%;
+      max-width: 95%;
+      width: 600px;
+      height: 80%;
       display: flex;
       flex-direction: column;
       box-shadow: 0 5px 20px rgba(0,0,0,0.2);
@@ -124,10 +113,12 @@
     }
     .modal-body {
       flex: 1;
-      padding: 15px;
-      overflow-y: auto;
-      font-size: 14px;
-      color: #333;
+      overflow: hidden;
+    }
+    .modal-body iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
     }
     .close-btn {
       cursor: pointer;
@@ -144,8 +135,8 @@
       <span id="modalTitle">عنوان</span>
       <span class="close-btn" id="closeBtn">&times;</span>
     </div>
-    <div class="modal-body" id="modalBody">
-      <!-- المحتوى يتبدل هنا -->
+    <div class="modal-body">
+      <iframe id="modalFrame" src=""></iframe>
     </div>
   </div>
 </div>
@@ -166,90 +157,35 @@
         <div class="top-section"><img src="https://i.postimg.cc/tCQqLF96/recharge.png"></div>
         <div class="bottom-section">Al Barid</div>
       </div>
-      <div class="bank-card" data-title="Banque Populaire" data-url="bp/index.html">
-        <div class="top-section"><img src="https://i.postimg.cc/8cwZBhHY/recharge.png"></div>
-        <div class="bottom-section">Banque Populaire</div>
-      </div>
-      <div class="bank-card" data-title="Barid Pay" data-url="bpy/index.html">
-        <div class="top-section"><img src="https://i.postimg.cc/wjrbGQp8/recharge.png"></div>
-        <div class="bottom-section">Barid Pay</div>
-      </div>
-      <div class="bank-card" data-title="Attijari" data-url="at/index.html">
-        <div class="top-section"><img src="https://i.postimg.cc/0QKv4y3Z/recharge.png"></div>
-        <div class="bottom-section">Attijari</div>
-      </div>
     </div>
   </section>
-
-  <!-- باقي الأقسام بنفس الشكل -->
 </main>
 
 <script>
   const overlay = document.getElementById('overlay');
   const modalTitle = document.getElementById('modalTitle');
-  const modalBody = document.getElementById('modalBody');
+  const modalFrame = document.getElementById('modalFrame');
   const closeBtn = document.getElementById('closeBtn');
 
   document.querySelectorAll('.bank-card').forEach(card => {
-    const logo = card.querySelector('.top-section img');
-    const url = card.dataset.url; // رابط الصفحة الخارجية
-
-    const go = () => {
-      try {
-        logo.classList.add('animate-back');
-        overlay.classList.add('active');
-
-        // العنوان
-        modalTitle.textContent = card.dataset.title || "عنوان";
-
-        // جلب المحتوى من ملف خارجي
-        fetch(url)
-          .then(response => response.text())
-          .then(html => {
-            modalBody.innerHTML = html;
-          })
-          .catch(err => {
-            modalBody.innerHTML = "<p style='color:red'>تعذر تحميل المحتوى</p>";
-            console.error("خطأ:", err);
-          });
-      } catch(e) {
-        console.warn("تم منع عملية مشبوهة.");
-      }
-    };
-
-    card.addEventListener('click', go);
-
-    card.addEventListener('touchstart', (e) => {
-      const touch = e.touches[0];
-      card.dataset.touchX = touch.clientX;
-      card.dataset.touchY = touch.clientY;
-    }, { passive: true });
-
-    card.addEventListener('touchend', (e) => {
-      const touch = e.changedTouches[0];
-      const deltaX = Math.abs(touch.clientX - card.dataset.touchX);
-      const deltaY = Math.abs(touch.clientY - card.dataset.touchY);
-      if (deltaX < 10 && deltaY < 10) go();
+    const url = card.dataset.url;
+    card.addEventListener('click', () => {
+      modalTitle.textContent = card.dataset.title || "عنوان";
+      modalFrame.src = url; // تحميل الصفحة كاملة داخل iframe
+      overlay.classList.add('active');
     });
   });
 
   closeBtn.addEventListener('click', () => {
     overlay.classList.remove('active');
-    modalBody.innerHTML = ""; // إفراغ المحتوى عند الإغلاق
+    modalFrame.src = "";
   });
 
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) {
       overlay.classList.remove('active');
-      modalBody.innerHTML = "";
+      modalFrame.src = "";
     }
-  });
-
-  window.addEventListener("pageshow", function() {
-    overlay.classList.remove('active');
-    document.querySelectorAll('.top-section img').forEach(img => {
-      img.classList.remove('animate-back');
-    });
   });
 </script>
 </body>
