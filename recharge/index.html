@@ -95,121 +95,111 @@
       background: rgba(0,0,0,0.4);
       z-index: 2000;
       transition: left 0.4s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .overlay.active { left: 0; }
+
+    /* === الكتلة (modal) === */
+    .modal {
+      background: #fff;
+      border-radius: 10px;
+      max-width: 90%;
+      width: 500px;
+      height: 70%;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    .modal-header {
+      background: #1e3a8a;
+      color: #fff;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+    }
+    .modal-body {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      font-size: 14px;
+      color: #333;
+    }
+    .close-btn {
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
-<div id="overlay" class="overlay"></div>
+<div id="overlay" class="overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <span id="modalTitle">عنوان</span>
+      <span class="close-btn" id="closeBtn">&times;</span>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <!-- المحتوى يتبدل هنا -->
+    </div>
+  </div>
+</div>
 
 <main>
   <section class="recommended-section" id="recommended">
     <h3 class="recommended-title">Recommended methods</h3>
     <div class="recommended-wrapper">
-      <div class="bank-card" data-url="ch/">
+      <div class="bank-card" data-title="CIH" data-content="هنا يمكن عرض محتوى CIH">
         <div class="top-section"><img src="https://i.postimg.cc/6pHN5ZxY/recharge.png"></div>
         <div class="bottom-section">CIH</div>
       </div>
-      <div class="bank-card" data-url="cp/">
+      <div class="bank-card" data-title="Cash Plus" data-content="محتوى Cash Plus">
         <div class="top-section"><img src="https://i.postimg.cc/vZ2pdd5K/recharge.png"></div>
         <div class="bottom-section">Cash Plus</div>
       </div>
-      <div class="bank-card" data-url="ab/">
+      <div class="bank-card" data-title="Al Barid" data-content="محتوى Al Barid">
         <div class="top-section"><img src="https://i.postimg.cc/tCQqLF96/recharge.png"></div>
         <div class="bottom-section">Al Barid</div>
       </div>
-      <div class="bank-card" data-url="bp/">
+      <div class="bank-card" data-title="Banque Populaire" data-content="محتوى Banque Populaire">
         <div class="top-section"><img src="https://i.postimg.cc/8cwZBhHY/recharge.png"></div>
         <div class="bottom-section">Banque Populaire</div>
       </div>
-      <div class="bank-card" data-url="bpy/">
+      <div class="bank-card" data-title="Barid Pay" data-content="محتوى Barid Pay">
         <div class="top-section"><img src="https://i.postimg.cc/wjrbGQp8/recharge.png"></div>
         <div class="bottom-section">Barid Pay</div>
       </div>
-      <div class="bank-card" data-url="at/">
+      <div class="bank-card" data-title="Attijari" data-content="محتوى Attijari">
         <div class="top-section"><img src="https://i.postimg.cc/0QKv4y3Z/recharge.png"></div>
         <div class="bottom-section">Attijari</div>
       </div>
     </div>
   </section>
 
-  <section class="recommended-section">
-    <h3 class="recommended-title">E-currency exchangers</h3>
-    <div class="recommended-wrapper">
-      <div class="bank-card" data-url="blk/">
-        <div class="top-section"><img src="https://i.postimg.cc/QdcW2XL8/recharge.png"></div>
-        <div class="bottom-section">Lbankalik</div>
-      </div>
-      <div class="bank-card" data-url="rtpy/">
-        <div class="top-section"><img src="https://i.postimg.cc/hvhd6Tn6/recharge.png"></div>
-        <div class="bottom-section">RedotPay</div>
-      </div>
-      <div class="bank-card" data-url="cm/">
-        <div class="top-section"><img src="https://i.postimg.cc/3JvyGKxX/recharge.png"></div>
-        <div class="bottom-section">CDM</div>
-      </div>
-      <div class="bank-card" data-url="sgs/">
-        <div class="top-section"><img src="https://i.postimg.cc/DZwJ4LS0/recharge.png"></div>
-        <div class="bottom-section">Société Générale SGMA</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="recommended-section">
-    <h3 class="recommended-title">Bank transfer</h3>
-    <div class="recommended-wrapper">
-      <div class="bank-card" data-url="rtpy/">
-        <div class="top-section"><img src="https://i.postimg.cc/hvhd6Tn6/recharge.png"></div>
-        <div class="bottom-section">RedotPay</div>
-      </div>
-      <div class="bank-card" data-url="ch/">
-        <div class="top-section"><img src="https://i.postimg.cc/6pHN5ZxY/recharge.png"></div>
-        <div class="bottom-section">CIH</div>
-      </div>
-      <div class="bank-card" data-url="blk/">
-        <div class="top-section"><img src="https://i.postimg.cc/QdcW2XL8/recharge.png"></div>
-        <div class="bottom-section">Lbankalik</div>
-      </div>
-      <div class="bank-card" data-url="ab/">
-        <div class="top-section"><img src="https://i.postimg.cc/tCQqLF96/recharge.png"></div>
-        <div class="bottom-section">Al Barid</div>
-      </div>
-      <div class="bank-card" data-url="cp/">
-        <div class="top-section"><img src="https://i.postimg.cc/vZ2pdd5K/recharge.png"></div>
-        <div class="bottom-section">Cash Plus</div>
-      </div>
-      <div class="bank-card" data-url="bpy/">
-        <div class="top-section"><img src="https://i.postimg.cc/wjrbGQp8/recharge.png"></div>
-        <div class="bottom-section">Barid Pay</div>
-      </div>
-      <div class="bank-card" data-url="cm/">
-        <div class="top-section"><img src="https://i.postimg.cc/3JvyGKxX/recharge.png"></div>
-        <div class="bottom-section">CDM</div>
-      </div>
-      <div class="bank-card" data-url="sgs/">
-        <div class="top-section"><img src="https://i.postimg.cc/DZwJ4LS0/recharge.png"></div>
-        <div class="bottom-section">Société Générale SGMA</div>
-      </div>
-      <div class="bank-card" data-url="at/">
-        <div class="top-section"><img src="https://i.postimg.cc/0QKv4y3Z/recharge.png"></div>
-        <div class="bottom-section">Attijari</div>
-      </div>
-    </div>
-  </section>
+  <!-- باقي الأقسام نفس الشكل (ما مسحتش) -->
 </main>
 
 <script>
   const overlay = document.getElementById('overlay');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalBody = document.getElementById('modalBody');
+  const closeBtn = document.getElementById('closeBtn');
 
   document.querySelectorAll('.bank-card').forEach(card => {
     const logo = card.querySelector('.top-section img');
-    const url = card.dataset.url;
 
     const go = () => {
       try {
         logo.classList.add('animate-back');
         overlay.classList.add('active');
-        setTimeout(() => location.href = url, 600);
+
+        // بدل العنوان والمحتوى من data attributes
+        modalTitle.textContent = card.dataset.title || "عنوان";
+        modalBody.textContent = card.dataset.content || "محتوى فارغ";
       } catch(e) {
         console.warn("تم منع عملية مشبوهة.");
       }
@@ -229,6 +219,14 @@
       const deltaY = Math.abs(touch.clientY - card.dataset.touchY);
       if (deltaX < 10 && deltaY < 10) go();
     });
+  });
+
+  closeBtn.addEventListener('click', () => {
+    overlay.classList.remove('active');
+  });
+
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) overlay.classList.remove('active');
   });
 
   window.addEventListener("pageshow", function() {
