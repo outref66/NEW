@@ -114,7 +114,7 @@
       position: relative;
     }
 
-    /* زر الإغلاق داخل الصفحة */
+    /* زر الإغلاق البسيط */
     .close-btn {
       position: absolute;
       top: 8px;
@@ -122,23 +122,15 @@
       cursor: pointer;
       font-size: 22px;
       font-weight: normal;
-      color: #fff;
-      background: rgba(0,0,0,0.4);
+      color: #000;  /* أسود بسيط */
+      background: none;
       border: none;
       line-height: 1;
-      border-radius: 50%;
-      width: 28px;
-      height: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: 0.2s;
       z-index: 3000;
     }
     .close-btn:hover {
-      background: rgba(0,0,0,0.6);
-      transform: scale(1.1);
-      color: #fff;
+      color: #000;
+      transform: none;
     }
 
     .modal-body {
@@ -159,7 +151,7 @@
 <div id="overlay" class="overlay">
   <div class="modal-box">
     <div class="modal-body">
-      <!-- ❌ زر إغلاق فوق الصفحة نفسها -->
+      <!-- ❌ زر إغلاق باللون الأسود -->
       <button id="closeModal" class="close-btn">×</button>
       <iframe id="modalFrame"></iframe>
     </div>
