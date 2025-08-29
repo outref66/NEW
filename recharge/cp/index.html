@@ -14,11 +14,13 @@
     .form-wrapper { background-color: #f9f9f9; padding: 20px 0; }
     .form-content { padding: 0 20px; max-width: 600px; margin: auto; }
     .instruction { font-size: 15px; color: #001F54; line-height: 1.4; margin: 0 0 4px; direction: ltr; text-align: left; }
-    .payment-line { display: flex; align-items: center; justify-content: flex-start; direction: ltr; text-align: left; gap: 6px; margin: 2px 0; }
+    .payment-line { display: flex; align-items: center; justify-content: flex-start; direction: ltr; text-align: left; margin: 2px 0; }
     .blue-text { font-size: 15px; color: #001F54; }
     .blue-text strong { font-weight: 600; }
+    .copy-icon { display: flex; align-items: center; margin-left: 6px; }
     .copy-icon svg { cursor: pointer; width: 18px; height: 18px; }
-    .copied-text { color: #555; font-size: 14px; display: none; margin-left: 6px; }
+    .copied-text { color: #555; font-size: 14px; margin-left: 4px; visibility: hidden; }
+    .copied-text.show { visibility: visible; }
     .info-block { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 15px; color: #333; }
     .info-label { width: 45%; text-align: right; }
     .info-input { width: 50%; display: flex; align-items: center; gap: 6px; word-break: break-word; }
@@ -56,8 +58,8 @@
               1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 
               16H8V7h11v14z"/>
             </svg>
+            <span class="copied-text">Copié</span>
           </span>
-          <span class="copied-text">Copié</span>
         </div>
         <div class="payment-line">
           <span class="blue-text"><strong>Motif :</strong> jawaher</span>
@@ -67,8 +69,8 @@
               .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 
               2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
             </svg>
+            <span class="copied-text">Copié</span>
           </span>
-          <span class="copied-text">Copié</span>
         </div>
         <div class="info-block">
           <div class="info-label">المبلغ (Min: 100.00 MAD / Max: 5000.00 MAD)</div>
@@ -118,10 +120,10 @@
     }
 
     function showCopied(element) {
-      const copied = element.parentElement.querySelector('.copied-text');
+      const copied = element.querySelector('.copied-text');
       if (copied) {
-        copied.style.display = 'inline';
-        setTimeout(() => copied.style.display = 'none', 1200);
+        copied.classList.add('show');
+        setTimeout(() => copied.classList.remove('show'), 1200);
       }
     }
 
