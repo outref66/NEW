@@ -12,7 +12,7 @@
     html, body {
       margin: 0;
       padding: 0;
-      height: auto;         /* الطول فقط على قد المحتوى */
+      height: auto;       /* الطول حسب المحتوى */
       min-height: 100%;
       overflow-x: hidden;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -146,8 +146,8 @@
     }
     .modal-body iframe {
       width: 100%;
-      height: auto;          
-      min-height: 600px;     
+      height: auto;
+      min-height: unset;   /* ❌ حيدنا 600px */
       border: none;
       display: block;
     }
