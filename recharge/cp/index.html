@@ -37,6 +37,14 @@
     .submit-btn:hover:not(:disabled){background:#0015aa}
     .submit-btn:disabled{background:#999;cursor:not-allowed}
     .submit-btn:focus,.submit-btn:active{outline:none!important;box-shadow:none!important}
+
+    /* --- الهاتف: ≤480px تصغير النصوص والأيقونات فقط --- */
+    @media (max-width:480px){
+      .instruction,.note,.blue-text{font-size:12px;line-height:1.2}
+      .info-label{font-size:12px;line-height:1.2}
+      .copy-icon img{width:14px;height:14px}
+      .copied-text{font-size:12px}
+    }
   </style>
 </head>
 <body>
