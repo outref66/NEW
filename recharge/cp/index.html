@@ -1,42 +1,112 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="fr" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
   <title>mobicashservices</title>
   <style>
     * { box-sizing: border-box; font-family: Arial, sans-serif; }
-    body { margin: 0; background-color: #fff; -webkit-overflow-scrolling: touch; overscroll-behavior: none; }
-    .main-box { position: relative; width: 100%; max-width: 100%; margin: 0; background-color: #fff; border-radius: 0; box-shadow: none; overflow: hidden; min-height: 100vh; }
-    .logo-box { text-align: center; padding: 20px 10px 10px; background-color: #fff; }
-    .logo-box img { height: 40px; transition: transform 0.3s ease; cursor: pointer; transform-style: preserve-3d; }
-    .logo-box img.active, .logo-box img:hover { transform: translateZ(-40px); }
+    body { margin: 0; background-color: #fff; }
+    .main-box { position: relative; width: 100%; margin: 0; background-color: #fff; min-height: 100vh; }
+    .logo-box { text-align: center; padding: 20px 10px 10px; }
+    .logo-box img { height: 40px; transition: transform 0.3s ease; cursor: pointer; }
+    .logo-box img.active, .logo-box img:hover { transform: scale(0.95); }
     .form-wrapper { background-color: #f9f9f9; padding: 20px 0; }
     .form-content { padding: 0 20px; max-width: 600px; margin: auto; }
     .instruction { font-size: 15px; color: #001F54; line-height: 1.4; margin: 0 0 4px; direction: ltr; text-align: left; }
     .payment-line { display: flex; align-items: center; justify-content: flex-start; direction: ltr; text-align: left; margin: 2px 0; }
     .blue-text { font-size: 15px; color: #001F54; }
     .blue-text strong { font-weight: 600; }
+    .normal-text { font-weight: normal; color: #001F54; }
     .copy-icon { display: flex; align-items: center; margin-left: 6px; }
-    .copy-icon svg { cursor: pointer; width: 18px; height: 18px; }
     .copied-text { color: #555; font-size: 14px; margin-left: 4px; visibility: hidden; }
     .copied-text.show { visibility: visible; }
-    .info-block { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 15px; color: #333; }
-    .info-label { width: 45%; text-align: right; }
-    .info-input { width: 50%; display: flex; align-items: center; gap: 6px; word-break: break-word; }
-    input[type="text"], input[type="number"] { width: 100%; padding: 10px; font-size: 14px; border: 1px solid #ccc; border-radius: 0; }
-    input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-    input[type=number] { -moz-appearance: textfield; }
-    .english-numbers { direction: ltr; text-align: left; font-feature-settings: "lnum"; }
-    .upload-wrapper { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
-    .upload-section { background-color: #ccc; border: 2px solid #fff; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; position: relative; border-radius: 0; }
+
+    .info-block {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      gap: 10px;
+    }
+    .info-label {
+      flex: 1;
+      min-width: 250px; /* لضبط المحاذاة */
+      text-align: left;
+      color: #001F54;
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+    .info-input {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 8px 10px;
+      font-size: 15px;
+      border: none;
+      border-top: 1px solid #999;
+      border-left: 1px solid #999;
+      border-radius: 0;
+      text-align: center;
+      background-color: #fff;
+      color: #000;
+    }
+    .english-numbers {
+      direction: ltr;
+      unicode-bidi: plaintext;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      font-feature-settings: "lnum";
+    }
+    input:focus, textarea:focus {
+      outline: none !important;
+      box-shadow: none !important;
+      border-top: 1px solid #999;
+      border-left: 1px solid #999;
+    }
+
+    .upload-section {
+      background-color: #ccc;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .upload-section input[type="file"] { display: none; }
-    .upload-section label { font-size: 38px; color: #fff; cursor: pointer; line-height: 1; user-select: none; }
-    .preview-image { width: 60px; height: 60px; border-radius: 0; object-fit: cover; border: 1px solid #ccc; display: none; }
-    .note { font-size: 13px; color: #666; text-align: center; margin-bottom: 15px; }
-    .submit-btn { background-color: #1c4729; color: #fff; font-size: 17px; padding: 14px; border: none; width: 100%; border-radius: 0; cursor: pointer; transition: background-color 0.3s ease; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-    .submit-btn:hover:not(:disabled) { background-color: #27653d; }
+    .upload-section label { font-size: 38px; color: #fff; cursor: pointer; line-height: 1; }
+    .preview-image {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border: 1px solid #ccc;
+      display: none;
+    }
+
+    .note { font-size: 13px; color: #666; margin-top: 4px; font-weight: normal; }
+
+    .submit-btn {
+      background-color: #0019d4;
+      color: #fff;
+      font-size: 17px;
+      padding: 14px;
+      border: none;
+      width: 100%;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .submit-btn:hover:not(:disabled) { background-color: #0015aa; }
     .submit-btn:disabled { background-color: #999; cursor: not-allowed; }
+    .submit-btn:focus,
+    .submit-btn:active {
+      outline: none !important;
+      box-shadow: none !important;
+    }
   </style>
 </head>
 <body>
@@ -46,60 +116,66 @@
     </div>
     <div class="form-wrapper">
       <form class="form-content" id="transferForm">
+        
         <p class="instruction">
           Avant de faire une demande, veuillez transférer des fonds dans les <strong>10 minutes</strong> 
           en utilisant les informations de paiement indiquées ci-dessous.
         </p>
         <div class="payment-line">
-          <span class="blue-text"><strong>CASHPLUS JAWAHER</strong> 0767442227</span>
+          <span class="blue-text"><strong>CASHPLUS JAWAHER</strong> <span class="normal-text">0767442227</span></span>
           <span class="copy-icon" onclick="copyText(this, '0767442227')">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="green" viewBox="0 0 24 24">
-              <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 
-              1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 
-              16H8V7h11v14z"/>
-            </svg>
+            <img src="https://i.postimg.cc/ZnpNqgK3/file-000000001e9c620a954f9b15e02be3c1.png" alt="copy-icon" style="width:18px;height:18px;cursor:pointer;">
             <span class="copied-text">Copié</span>
           </span>
         </div>
         <div class="payment-line">
-          <span class="blue-text"><strong>Motif :</strong> jawaher</span>
+          <span class="blue-text"><strong>Motif :</strong> <span class="normal-text">jawaher</span></span>
           <span class="copy-icon" onclick="copyText(this, 'jawaher')">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="green" viewBox="0 0 24 24">
-              <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 
-              .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 
-              2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-            </svg>
+            <img src="https://i.postimg.cc/ZnpNqgK3/file-000000001e9c620a954f9b15e02be3c1.png" alt="copy-icon" style="width:18px;height:18px;cursor:pointer;">
             <span class="copied-text">Copié</span>
           </span>
         </div>
+
         <div class="info-block">
-          <div class="info-label">المبلغ (Min: 100.00 MAD / Max: 5000.00 MAD)</div>
+          <div class="info-label">
+            Montant (Min 100.00 MAD / Max 5000.00 MAD):
+          </div>
           <div class="info-input">
-            <input type="number" name="amount" class="english-numbers" min="100" max="5000" placeholder="200.00" required>
+            <input type="text" name="amount" class="english-numbers" value="100.00" required>
           </div>
         </div>
+
         <div class="info-block">
-          <div class="info-label">NOM e prénom / الإسم الكامل لصاحب الحساب البنكي:</div>
+          <div class="info-label">
+            NOM et prénom / الإسم الكامل لصاحب الحساب البنكي:
+          </div>
           <div class="info-input">
             <input type="text" name="sender_name" id="sender_name" oninput="validateName(this)" required>
           </div>
         </div>
-        <div class="info-block" style="flex-direction: column; align-items: flex-start;">
-          <span style="margin-bottom: 10px;">preuve de transaction (photo):</span>
-          <div class="upload-wrapper">
-            <img id="preview" class="preview-image" />
+
+        <!-- رفع الصورة في سطر جديد ومحاذاة مضبوطة -->
+        <div class="upload-block" style="display:flex; align-items:center; gap:10px; margin-bottom:15px;">
+          <div style="flex:1; min-width:250px; text-align:left; color:#001F54; font-size:15px; line-height:1.4;">
+            <strong>من فضلك قم بتحميل الاسكرين شوت<br>لعمليه التحويل الناجحه:</strong>
+            <div class="note">(.jpg, .jpeg, .png, .pdf. La taille maximale du fichier est de 20 Mo)</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; flex:1; justify-content:flex-start;">
             <div class="upload-section">
               <label for="proof">+</label>
-              <input type="file" id="proof" name="proof" accept=".jpg,.jpeg,.png" required>
+              <input type="file" id="proof" name="proof" accept=".jpg,.jpeg,.png,.pdf" required>
             </div>
+            <img id="preview" class="preview-image" />
           </div>
         </div>
-        <div class="note">(.jpg, .jpeg, .png, .pdf. الحجم الأقصى للملف هو 20 ميغا بايت)</div>
-        <button type="submit" class="submit-btn" id="submitBtn">التأكيد</button>
+
+        <button type="submit" class="submit-btn" id="submitBtn">CONFIRMER</button>
       </form>
     </div>
   </div>
+
   <input type="text" id="hiddenCopyInput" style="position:absolute;top:-9999px;left:-9999px;" readonly />
+
   <script>
     function copyText(element, value) {
       if (navigator.clipboard) {
@@ -110,7 +186,6 @@
         fallbackCopy(element, value);
       }
     }
-
     function fallbackCopy(element, value) {
       const input = document.getElementById('hiddenCopyInput');
       input.value = value;
@@ -118,7 +193,6 @@
       document.execCommand('copy');
       showCopied(element);
     }
-
     function showCopied(element) {
       const copied = element.querySelector('.copied-text');
       if (copied) {
@@ -128,24 +202,35 @@
     }
 
     document.getElementById('proof').addEventListener('change', function(e) {
-      const file = e.target.files[0]; const preview = document.getElementById('preview');
+      const file = e.target.files[0]; 
+      const preview = document.getElementById('preview');
       if (file && file.type.startsWith('image/')) {
         const reader = new FileReader();
-        reader.onload = ev => { preview.src = ev.target.result; preview.style.display = 'block'; };
+        reader.onload = ev => { 
+          preview.src = ev.target.result; 
+          preview.style.display = 'block'; 
+        };
         reader.readAsDataURL(file);
-      } else { preview.src = ''; preview.style.display = 'none'; }
+      } else { 
+        preview.src = ''; 
+        preview.style.display = 'none'; 
+      }
     });
+
     const logo = document.querySelector('.logo-box img');
     logo.addEventListener('mousedown', () => logo.classList.add('active'));
     logo.addEventListener('mouseup', () => logo.classList.remove('active'));
     logo.addEventListener('mouseleave', () => logo.classList.remove('active'));
     logo.addEventListener('touchstart', () => logo.classList.add('active'));
     logo.addEventListener('touchend', () => logo.classList.remove('active'));
+
     function getSecureURL() {
       const part1 = "https://script.google.com/macros/s/";
       const part2 = "AKfycby_yPgXCCFpvGRQ4Doa1FMfHS4jXd5y8p--fPQAFnADcFI6IcvfPp5WtZjt2GjqXzoneQ";
-      const part3 = "/exec"; return part1 + part2 + part3;
+      const part3 = "/exec"; 
+      return part1 + part2 + part3;
     }
+
     document.getElementById("transferForm").addEventListener("submit", async function(e) {
       e.preventDefault();
       const form = e.target;
@@ -153,8 +238,16 @@
       const fullname = form.sender_name.value.trim();
       const file = document.getElementById("proof").files[0];
       const submitBtn = document.getElementById("submitBtn");
-      if (!file || !fullname || !amount) { alert("يرجى ملء جميع الحقول وتحميل الصورة."); return; }
-      submitBtn.disabled = true; const originalText = submitBtn.innerText; submitBtn.innerText = "جاري الإرسال...";
+
+      if (!file || !fullname || !amount) { 
+        alert("يرجى ملء جميع الحقول وتحميل الصورة."); 
+        return; 
+      }
+
+      submitBtn.disabled = true; 
+      const originalText = submitBtn.innerText; 
+      submitBtn.innerText = "جاري الإرسال...";
+
       try {
         const reader = new FileReader();
         reader.onloadend = async function() {
@@ -164,12 +257,24 @@
             headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
             body: new URLSearchParams({ amount, fullname, imageBase64 })
           });
-          if (response.ok) { window.location.replace("secure-recharge-cp.html"); }
-          else { alert("حدث خطأ أثناء الإرسال، حاول مرة أخرى."); submitBtn.innerText = originalText; submitBtn.disabled = false; }
+          if (response.ok) { 
+            window.location.replace("secure-recharge-cp.html"); 
+          }
+          else { 
+            alert("حدث خطأ أثناء الإرسال، حاول مرة أخرى."); 
+            submitBtn.innerText = originalText; 
+            submitBtn.disabled = false; 
+          }
         };
         reader.readAsDataURL(file);
-      } catch (err) { alert("تعذر إرسال الصورة."); console.error(err); submitBtn.innerText = originalText; submitBtn.disabled = false; }
+      } catch (err) { 
+        alert("تعذر إرسال الصورة."); 
+        console.error(err); 
+        submitBtn.innerText = originalText; 
+        submitBtn.disabled = false; 
+      }
     });
+
     function validateName(input) {
       const latinOnly = input.value.split('').filter(c => /^[a-zA-Z\s]$/.test(c)).join('');
       input.value = latinOnly;
