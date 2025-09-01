@@ -114,7 +114,6 @@
       position: relative;
     }
 
-    /* زر الإغلاق البسيط */
     .close-btn {
       position: absolute;
       top: 8px;
@@ -122,7 +121,7 @@
       cursor: pointer;
       font-size: 22px;
       font-weight: normal;
-      color: #000;  /* أسود بسيط */
+      color: #000;
       background: none;
       border: none;
       line-height: 1;
@@ -139,8 +138,7 @@
     }
     .modal-body iframe {
       width: 100%;
-      height: auto;          
-      min-height: 600px;     
+      height: 90vh;   /* 90% من ارتفاع الشاشة */
       border: none;
       display: block;
     }
@@ -151,7 +149,6 @@
 <div id="overlay" class="overlay">
   <div class="modal-box">
     <div class="modal-body">
-      <!-- ❌ زر إغلاق باللون الأسود -->
       <button id="closeModal" class="close-btn">×</button>
       <iframe id="modalFrame"></iframe>
     </div>
