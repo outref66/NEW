@@ -104,12 +104,11 @@
       background: #fff;
       width: 95%;
       max-width: 480px;
-      height: auto;          
-      max-height: 95%;       
+      height: 95vh;        /* ياخذ 95% من الشاشة */
       border-radius: 6px;
       display: flex;
       flex-direction: column;
-      overflow: hidden;     
+      overflow: hidden;
       box-shadow: 0 4px 12px rgba(0,0,0,0.25);
       position: relative;
     }
@@ -138,7 +137,7 @@
     }
     .modal-body iframe {
       width: 100%;
-      height: 90vh;   /* 90% من ارتفاع الشاشة */
+      height: 100%;   /* يملأ المودال كامل */
       border: none;
       display: block;
     }
